@@ -9,12 +9,12 @@ public class PinModelMapper {
     return PinCommand.builder().pinNumber(pinDao.getPinNumber()).action(pinDao.getAction()).build();
   }
 
-  public static PinDao toPinDao(final PinConfigDto pinConfigDto) {
-    return PinDao.builder()
-        .pinNumber(pinConfigDto.getPinNumber())
-        .mode(pinConfigDto.getMode())
-        .standby(pinConfigDto.getStandby())
-        .defaultLatchTime(pinConfigDto.getDefaultLatchTime())
+  public static PinConfigDto toPinConfigDto(final PinDao pinDao) {
+    return PinConfigDto.builder()
+        .pinNumber(pinDao.getPinNumber())
+        .mode(pinDao.getMode())
+        .standby(pinDao.getStandby())
+        .defaultLatchTime(pinDao.getDefaultLatchTime())
         .build();
   }
 }

@@ -5,7 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import pl.smarthouse.module.GPO.model.PinDao;
+import pl.smarthouse.module.GPO.utils.PinModelMapper;
+import pl.smarthouse.module.config.model.ModuleConfigDto;
 import pl.smarthouse.module.sensors.model.SensorDao;
+import pl.smarthouse.module.sensors.utils.SensorModelMapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -79,5 +82,20 @@ public class ModuleConfig {
     if (sensorNameCheckSet.size() != sensorDaoSet.size()) {
       throw new IllegalArgumentException(String.format(DUPLICATED_ELEMENTS, SENSOR));
     }
+  }
+
+  public ModuleConfigDto getConfig() {
+    return ModuleConfigDto.builder()
+        .type(type)
+        .version(version)
+        .pinConfigDtoSet(
+            pinDaoSet.stream()
+                .map(pinDao -> PinModelMapper.toPinConfigDto(pinDao))
+                .collect(Collectors.toSet()))
+        .sensorConfigDtoSet(
+            sensorDaoSet.stream()
+                .map(sensorDao -> SensorModelMapper.toSensorConfigDto(sensorDao))
+                .collect(Collectors.toSet()))
+        .build();
   }
 }

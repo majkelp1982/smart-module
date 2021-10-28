@@ -1,6 +1,7 @@
 package pl.smarthouse.module.sensors.utils;
 
 import pl.smarthouse.module.sensors.model.SensorCommand;
+import pl.smarthouse.module.sensors.model.SensorConfigDto;
 import pl.smarthouse.module.sensors.model.SensorDao;
 
 public class SensorModelMapper {
@@ -10,14 +11,13 @@ public class SensorModelMapper {
   private static final String VALIDATION_FAILED = "Validation failed. Mode %s not recognized";
 
   public static SensorCommand toSensorCommand(final SensorDao sensorDao) {
-    validation(sensorDao);
     return SensorCommand.builder()
         .sensorName(sensorDao.getName())
         .action(sensorDao.getAction())
         .build();
   }
 
-  private static void validation(final SensorDao sensorDao) {
-    return;
+  public static SensorConfigDto toSensorConfigDto(final SensorDao sensorDao) {
+    return SensorConfigDto.builder().name(sensorDao.getName()).type(sensorDao.getType()).build();
   }
 }
