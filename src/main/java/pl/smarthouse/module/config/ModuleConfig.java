@@ -8,7 +8,6 @@ import pl.smarthouse.module.GPO.model.PinDao;
 import pl.smarthouse.module.GPO.utils.PinModelMapper;
 import pl.smarthouse.module.config.model.ModuleConfigDto;
 import pl.smarthouse.module.sensors.model.SensorDao;
-import pl.smarthouse.module.sensors.utils.SensorModelMapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -93,9 +92,7 @@ public class ModuleConfig {
                 .map(pinDao -> PinModelMapper.toPinConfigDto(pinDao))
                 .collect(Collectors.toSet()))
         .sensorConfigDtoSet(
-            sensorDaoSet.stream()
-                .map(sensorDao -> SensorModelMapper.toSensorConfigDto(sensorDao))
-                .collect(Collectors.toSet()))
+            sensorDaoSet.stream().map(sensorDao -> sensorDao.getDto()).collect(Collectors.toSet()))
         .build();
   }
 }
