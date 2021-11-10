@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import pl.smarthouse.module.sensors.enums.SensorType;
+import pl.smarthouse.module.sensors.model.SensorConfigDto;
 import pl.smarthouse.module.sensors.model.SensorDao;
 import pl.smarthouse.module.sensors.model.enums.SensorAction;
 
@@ -42,5 +43,10 @@ public class SensorBME280SPIDao extends SensorDao {
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public SensorConfigDto getDto() {
+    return SensorBME280SPIDto.builder().name(name).type(type).csPin(csPin).build();
   }
 }

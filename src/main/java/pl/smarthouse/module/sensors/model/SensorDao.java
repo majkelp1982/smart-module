@@ -16,4 +16,6 @@ public abstract class SensorDao {
   protected SensorType type;
   @NonNull protected SensorAction action = SensorAction.NO_ACTION;
   private String response;
+
+  public abstract SensorConfigDto getDto();
 }

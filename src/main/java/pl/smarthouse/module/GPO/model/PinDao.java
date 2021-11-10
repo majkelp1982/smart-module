@@ -67,6 +67,9 @@ public class PinDao {
         if (defaultLatchTime <= 0) {
           throw new IllegalArgumentException("Invalid pin latch time. Need to be bigger than 0");
         }
+        if (standby == null || !List.of(PinAction.LOW, PinAction.HIGH).contains(standby)) {
+          throw new IllegalArgumentException("Invalid pin standby. Need to be HIGH or LOW");
+        }
       }
       return new PinDao(
           pinNumber, mode, standby, action, defaultLatchTime, 0, PinDigitalState.NO_STATE);
@@ -79,7 +82,9 @@ public class PinDao {
     }
 
     // input
-    if (List.of(PinModes.INPUT, PinModes.INPUT_PULLUP, PinModes.INPUT_PULLDOWN).contains(mode)) {
+    // fixme inline comment. Check PinModes enum
+    if (List.of(PinModes.INPUT, /*PinModes.INPUT_PULLUP,*/ PinModes.INPUT_PULLDOWN)
+        .contains(mode)) {
       if (!PinAction.READ.equals(action)) {
         throw new IllegalArgumentException(String.format(WRONG_INPUT_ACTION, pinNumber, action));
       }

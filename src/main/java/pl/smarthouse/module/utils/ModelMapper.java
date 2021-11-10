@@ -9,7 +9,6 @@ import pl.smarthouse.module.config.ModuleConfig;
 import pl.smarthouse.module.response.ModuleResponse;
 import pl.smarthouse.module.sensors.model.SensorDao;
 import pl.smarthouse.module.sensors.model.SensorResponse;
-import pl.smarthouse.module.sensors.model.enums.SensorAction;
 
 import java.util.Optional;
 
@@ -105,7 +104,6 @@ public class ModelMapper {
       final SensorDao sensor = optionalSensorDao.get();
 
       sensor.setResponse(sensorResponse.getResponse());
-      sensor.setAction(SensorAction.NO_ACTION);
     }
   }
 

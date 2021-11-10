@@ -1,7 +1,6 @@
 package pl.smarthouse.module.sensors.utils;
 
 import pl.smarthouse.module.sensors.model.SensorCommand;
-import pl.smarthouse.module.sensors.model.SensorConfigDto;
 import pl.smarthouse.module.sensors.model.SensorDao;
 
 public class SensorModelMapper {
@@ -15,9 +14,5 @@ public class SensorModelMapper {
         .sensorName(sensorDao.getName())
         .action(sensorDao.getAction())
         .build();
-  }
-
-  public static SensorConfigDto toSensorConfigDto(final SensorDao sensorDao) {
-    return SensorConfigDto.builder().name(sensorDao.getName()).type(sensorDao.getType()).build();
   }
 }
