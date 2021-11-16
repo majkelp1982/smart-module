@@ -7,6 +7,7 @@ import pl.smarthouse.module.GPO.enums.PinAction;
 import pl.smarthouse.module.GPO.enums.PinDigitalState;
 import pl.smarthouse.module.GPO.enums.PinModes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,6 +26,8 @@ public class PinDao {
   @NonNull private PinModes mode;
   private PinAction standby;
   private PinAction action;
+  int pendingTime;
+  private LocalDateTime lastActionTimeStamp;
   private int defaultLatchTime;
 
   // States
@@ -50,6 +53,10 @@ public class PinDao {
     this.digitalState = digitalState;
   }
 
+  public void setLastActionTimeStamp(final LocalDateTime lastActionTimeStamp) {
+    this.lastActionTimeStamp = lastActionTimeStamp;
+  }
+
   public static class Builder {
     public PinDao build() {
       if (pinNumber <= 0) {
@@ -71,16 +78,25 @@ public class PinDao {
           throw new IllegalArgumentException("Invalid pin standby. Need to be HIGH or LOW");
         }
       }
+
+      if (pendingTime == 0) {
+        throw new IllegalArgumentException("Invalid pin pending time. Need to be bigger than 0");
+      }
+
       return new PinDao(
-          pinNumber, mode, standby, action, defaultLatchTime, 0, PinDigitalState.NO_STATE);
+          pinNumber,
+          mode,
+          standby,
+          action,
+          pendingTime,
+          LocalDateTime.MIN,
+          defaultLatchTime,
+          0,
+          PinDigitalState.NO_STATE);
     }
   }
 
   private void validation(final PinAction action) {
-    if (action == PinAction.NO_ACTION) {
-      return;
-    }
-
     // input
     // fixme inline comment. Check PinModes enum
     if (List.of(PinModes.INPUT, /*PinModes.INPUT_PULLUP,*/ PinModes.INPUT_PULLDOWN)

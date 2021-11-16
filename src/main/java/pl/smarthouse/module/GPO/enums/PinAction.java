@@ -1,7 +1,7 @@
 package pl.smarthouse.module.GPO.enums;
 
 public enum PinAction {
-  NO_ACTION,
+  //  NO_ACTION,
   LOW,
   HIGH,
   READ,

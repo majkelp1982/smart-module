@@ -11,7 +11,6 @@ import pl.smarthouse.module.sensors.model.enums.SensorAction;
 
 import java.util.List;
 
-import static pl.smarthouse.module.sensors.model.enums.SensorAction.NO_ACTION;
 import static pl.smarthouse.module.sensors.model.enums.SensorAction.READ;
 
 @SuperBuilder
@@ -23,7 +22,7 @@ public class SensorBME280SPIDao extends SensorDao {
 
   @Override
   public void setAction(final SensorAction action) {
-    if (List.of(NO_ACTION, READ).contains(action)) {
+    if (List.of(READ).contains(action)) {
       this.action = action;
     } else {
       throw new IllegalArgumentException(String.format(WRONG_ACTION, type));

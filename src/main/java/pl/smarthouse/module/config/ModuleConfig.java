@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import pl.smarthouse.module.GPO.model.PinDao;
-import pl.smarthouse.module.GPO.utils.PinModelMapper;
-import pl.smarthouse.module.config.model.ModuleConfigDto;
 import pl.smarthouse.module.sensors.model.SensorDao;
 
 import java.time.LocalDate;
@@ -27,11 +25,20 @@ public class ModuleConfig {
   private static final String PIN = "pin";
 
   private String type;
-
   private String version;
+  private String macAddress;
+  private String baseUrl;
 
   private Set<PinDao> pinDaoSet;
   private Set<SensorDao> sensorDaoSet;
+
+  public void setBaseUrl(final String baseUrl) {
+    if (!baseUrl.startsWith("http")) {
+      this.baseUrl = "http://" + baseUrl;
+    } else {
+      this.baseUrl = baseUrl;
+    }
+  }
 
   public static class Builder {
     public ModuleConfig build() {
@@ -46,6 +53,10 @@ public class ModuleConfig {
         throw new NullPointerException("Type can't be null");
       }
 
+      if (macAddress == null) {
+        throw new NullPointerException("Mac address can't be null");
+      }
+
       if (pinDaoSet == null) {
         pinDaoSet = new HashSet<>();
       }
@@ -57,7 +68,7 @@ public class ModuleConfig {
       checkDuplicatedPinNumbers(pinDaoSet);
       checkDuplicatedSensorNames(sensorDaoSet);
 
-      return new ModuleConfig(type, version, pinDaoSet, sensorDaoSet);
+      return new ModuleConfig(type, version, macAddress, baseUrl, pinDaoSet, sensorDaoSet);
     }
   }
 
@@ -81,18 +92,5 @@ public class ModuleConfig {
     if (sensorNameCheckSet.size() != sensorDaoSet.size()) {
       throw new IllegalArgumentException(String.format(DUPLICATED_ELEMENTS, SENSOR));
     }
-  }
-
-  public ModuleConfigDto getConfig() {
-    return ModuleConfigDto.builder()
-        .type(type)
-        .version(version)
-        .pinConfigDtoSet(
-            pinDaoSet.stream()
-                .map(pinDao -> PinModelMapper.toPinConfigDto(pinDao))
-                .collect(Collectors.toSet()))
-        .sensorConfigDtoSet(
-            sensorDaoSet.stream().map(sensorDao -> sensorDao.getDto()).collect(Collectors.toSet()))
-        .build();
   }
 }

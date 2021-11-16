@@ -1,16 +1,18 @@
 package pl.smarthouse.module.utils;
 
-import pl.smarthouse.module.GPO.enums.PinAction;
 import pl.smarthouse.module.GPO.enums.PinDigitalState;
 import pl.smarthouse.module.GPO.enums.PinModes;
 import pl.smarthouse.module.GPO.model.PinDao;
 import pl.smarthouse.module.GPO.model.PinResponse;
+import pl.smarthouse.module.GPO.utils.PinModelMapper;
 import pl.smarthouse.module.config.ModuleConfig;
+import pl.smarthouse.module.config.model.ModuleConfigDto;
 import pl.smarthouse.module.response.ModuleResponse;
 import pl.smarthouse.module.sensors.model.SensorDao;
 import pl.smarthouse.module.sensors.model.SensorResponse;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ModelMapper {
   private static final String OUTPUT = "OUTPUT";
@@ -22,6 +24,21 @@ public class ModelMapper {
       "Pin number %s is OUTPUT. Can not provide response action";
   private static final String PIN_MODE_NOT_FOUND = "Pin number %s mode not recognized";
   private static final String SENSOR_MISSING = "Sensor name %s is missing in module configuration";
+
+  public static ModuleConfigDto getConfigDto(final ModuleConfig moduleConfig) {
+    return ModuleConfigDto.builder()
+        .type(moduleConfig.getType())
+        .version(moduleConfig.getVersion())
+        .pinConfigDtoSet(
+            moduleConfig.getPinDaoSet().stream()
+                .map(pinDao -> PinModelMapper.toPinConfigDto(pinDao))
+                .collect(Collectors.toSet()))
+        .sensorConfigDtoSet(
+            moduleConfig.getSensorDaoSet().stream()
+                .map(sensorDao -> sensorDao.getDto())
+                .collect(Collectors.toSet()))
+        .build();
+  }
 
   public static void copyResponseData(
       final ModuleConfig moduleConfig, final ModuleResponse moduleResponse) {
@@ -73,14 +90,12 @@ public class ModelMapper {
 
       if (pin.getMode().equals(PinModes.ANALOG)) {
         pin.setAnalogState(pinResponse.getResponse());
-        pin.setAction(PinAction.NO_ACTION);
         continue;
       }
 
       if (pin.getMode().toString().contains(INPUT)) {
         pin.setDigitalState(
             pinResponse.getResponse() == 0 ? PinDigitalState.LOW : PinDigitalState.HIGH);
-        pin.setAction(PinAction.NO_ACTION);
         continue;
       }
       throw new IllegalArgumentException(
