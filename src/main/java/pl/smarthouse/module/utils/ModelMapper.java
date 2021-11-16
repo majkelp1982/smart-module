@@ -1,5 +1,6 @@
 package pl.smarthouse.module.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import pl.smarthouse.module.GPO.enums.PinDigitalState;
 import pl.smarthouse.module.GPO.enums.PinModes;
 import pl.smarthouse.module.GPO.model.PinDao;
@@ -41,7 +42,8 @@ public class ModelMapper {
   }
 
   public static void copyResponseData(
-      final ModuleConfig moduleConfig, final ModuleResponse moduleResponse) {
+      final ModuleConfig moduleConfig, final ModuleResponse moduleResponse)
+      throws JsonProcessingException {
 
     validation(moduleConfig, moduleResponse);
     copyToPinDao(moduleConfig, moduleResponse);
@@ -104,7 +106,8 @@ public class ModelMapper {
   }
 
   private static void copyToSensorDao(
-      final ModuleConfig moduleConfig, final ModuleResponse moduleResponse) {
+      final ModuleConfig moduleConfig, final ModuleResponse moduleResponse)
+      throws JsonProcessingException {
     for (final SensorResponse sensorResponse : moduleResponse.getSensorResponseSet()) {
       final Optional<SensorDao> optionalSensorDao =
           moduleConfig.getSensorDaoSet().stream()
@@ -118,7 +121,7 @@ public class ModelMapper {
 
       final SensorDao sensor = optionalSensorDao.get();
 
-      sensor.setResponse(sensorResponse.getResponse());
+      sensor.setResponse(sensor.map(sensorResponse.getResponse()));
     }
   }
 

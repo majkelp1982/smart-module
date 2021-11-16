@@ -1,5 +1,6 @@
 package pl.smarthouse.module.sensors.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import pl.smarthouse.module.sensors.enums.SensorType;
@@ -19,7 +20,9 @@ public abstract class SensorDao {
   @NonNull protected SensorAction action; // = SensorAction.NO_ACTION;
   int pendingTime;
   @NonNull private LocalDateTime lastActionTimeStamp = LocalDateTime.MIN;
-  private String response;
+  private SensorResponseMap response;
 
   public abstract SensorConfigDto getDto();
+
+  public abstract SensorResponseMap map(final String json) throws JsonProcessingException;
 }
