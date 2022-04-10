@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.BME280;
+package pl.smarthouse.smartmodule.model.actors.SDS011;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -9,16 +9,16 @@ import pl.smarthouse.smartmodule.model.types.ActorType;
 
 @Setter
 @Getter
-public class BME280 extends Actor {
-  private BME280Command command;
-  private BME280Response response;
+public class SDS011 extends Actor {
+  private SDS011Command command;
+  private SDS011Response response;
 
-  public BME280(@NonNull final String name) {
-    super(ActorType.BME280, name);
+  public SDS011(@NonNull final String name) {
+    super(ActorType.SDS011, name);
   }
 
   @Override
   public void setCommand(final Command command) {
-    this.command = (BME280Command) command;
+    this.command = (SDS011Command) command;
   }
 }

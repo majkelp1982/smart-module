@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors;
+package pl.smarthouse.smartmodule.model.types;
 
 public enum ActorType {
   DIGITAL_WRITE,

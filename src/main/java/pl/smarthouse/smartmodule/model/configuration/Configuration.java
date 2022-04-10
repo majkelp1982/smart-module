@@ -1,34 +1,33 @@
 package pl.smarthouse.smartmodule.model.configuration;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import pl.smarthouse.smartmodule.model.actors.Actor;
+import pl.smarthouse.smartmodule.model.actors.ActorMap;
+import pl.smarthouse.smartmodule.model.types.ModuleType;
 import pl.smarthouse.smartmodule.utils.ModuleConfigValidator;
-
-import java.util.HashMap;
 
 @Builder
 @Getter
+@AllArgsConstructor
 public class Configuration {
-  @NonNull private String type;
+  @NonNull private ModuleType type;
   @NonNull private String version;
   @NonNull private String macAddress;
-  @NonNull private HashMap<String, Actor> actorMap;
+  @NonNull private ActorMap actorMap;
   private String baseUrl;
 
   public Configuration(
-      @NonNull final String type,
+      @NonNull final ModuleType type,
       @NonNull final String version,
       @NonNull final String macAddress,
-      @NonNull final HashMap<String, Actor> actorMap,
-      final String baseUrl) {
+      @NonNull final ActorMap actorMap) {
     ModuleConfigValidator.isVersionValid.accept(version);
     this.type = type;
     this.version = version;
     this.macAddress = macAddress;
     this.actorMap = actorMap;
-    this.baseUrl = baseUrl;
   }
 
   public void setBaseUrl(final String baseUrl) {
