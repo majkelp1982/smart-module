@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
-import pl.smarthouse.smartmodule.model.actors.Command;
 import pl.smarthouse.smartmodule.model.types.ActorType;
 
 @Setter
@@ -17,8 +16,7 @@ public class BME280 extends Actor {
     super(ActorType.BME280, name);
   }
 
-  @Override
-  public void setCommand(final Command command) {
-    this.command = (BME280Command) command;
+  public void setCommand(final BME280Command command) {
+    this.command = command;
   }
 }

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
-import pl.smarthouse.smartmodule.model.actors.Command;
 import pl.smarthouse.smartmodule.model.types.ActorType;
 
 @Setter
@@ -17,8 +16,7 @@ public class SDS011 extends Actor {
     super(ActorType.SDS011, name);
   }
 
-  @Override
-  public void setCommand(final Command command) {
-    this.command = (SDS011Command) command;
+  public void setCommand(final SDS011Command command) {
+    this.command = command;
   }
 }

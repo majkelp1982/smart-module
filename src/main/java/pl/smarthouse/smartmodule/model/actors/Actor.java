@@ -11,5 +11,5 @@ public abstract class Actor {
   @NonNull protected ActorType type;
   @NonNull protected String name;
 
-  public abstract void setCommand(Command command);
+  //  public abstract void setCommand(Command command);
 }
