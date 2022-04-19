@@ -17,7 +17,7 @@ import java.time.Duration;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class ModuleManagerService {
+public class ManagerService {
   private static final String NO_IP_FOUND = "No IP found for mac address %s";
   private static final String GETTING_IP_GOES_WRONG = "Getting IP address from module goes wrong";
   private static final long RETRY_MAX_ATTEMPT = 1L;

@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,5 +12,9 @@ public abstract class Actor {
   @NonNull protected ActorType type;
   @NonNull protected String name;
 
-  //  public abstract void setCommand(Command command);
+  public abstract Command getCommand();
+
+  public abstract void setCommand(Command command);
+
+  public abstract void setResponse(final String response) throws JsonProcessingException;
 }
