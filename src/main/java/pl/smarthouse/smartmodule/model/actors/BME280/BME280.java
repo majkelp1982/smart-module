@@ -9,6 +9,8 @@ import pl.smarthouse.smartmodule.model.actors.Actor;
 import pl.smarthouse.smartmodule.model.actors.Command;
 import pl.smarthouse.smartmodule.model.types.ActorType;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 public class BME280 extends Actor {
@@ -17,6 +19,7 @@ public class BME280 extends Actor {
 
   public BME280(@NonNull final String name) {
     super(ActorType.BME280, name);
+    setCommand(BME280Command.NO_ACTION);
   }
 
   @Override
@@ -28,5 +31,6 @@ public class BME280 extends Actor {
   public void setResponse(final String response) throws JsonProcessingException {
     final ObjectMapper objectMapper = new ObjectMapper();
     this.response = objectMapper.readValue(response, BME280Response.class);
+    this.response.setResponseUpdate(LocalDateTime.now());
   }
 }

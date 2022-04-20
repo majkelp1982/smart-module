@@ -13,7 +13,8 @@ public class CommandUtils {
     final Map<String, Command> commandMap = new HashMap<>();
 
     configuration.getActorMap().stream()
-        .map(actor -> commandMap.put(actor.getName(), actor.getCommand()));
+        .filter(actor -> !"NO_ACTION".equalsIgnoreCase(actor.getCommand().toString()))
+        .forEach(actor -> commandMap.put(actor.getName(), actor.getCommand()));
 
     return ModuleCommands.builder()
         .type(configuration.getType())

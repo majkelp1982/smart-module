@@ -1,13 +1,12 @@
 package pl.smarthouse.smartmodule.model.actors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public abstract class Response {
-
-  public Response setResponse(final String response) throws IOException {
-    final ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(response, Response.class);
-  }
+  protected LocalDateTime responseUpdate;
 }
