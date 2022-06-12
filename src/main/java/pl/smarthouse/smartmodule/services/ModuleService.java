@@ -17,8 +17,12 @@ public class ModuleService {
   private Configuration configuration;
   private final WebClient webClient;
 
-  public void sendCommand() {
+  public void exchange() {
     final ModuleCommands moduleCommands = CommandUtils.getCommandBody(configuration);
+    if (moduleCommands.getCommandMap().isEmpty()) {
+      log.info("Sending command skipped. No commands to send");
+      return;
+    }
     log.info("Sending command: {}", moduleCommands);
     webClient
         .post()

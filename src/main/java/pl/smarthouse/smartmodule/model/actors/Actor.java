@@ -14,7 +14,5 @@ public abstract class Actor {
 
   public abstract Command getCommand();
 
-  public abstract void setCommand(Command command);
-
   public abstract void setResponse(final String response) throws JsonProcessingException;
 }

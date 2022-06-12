@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
-import pl.smarthouse.smartmodule.model.actors.Command;
 import pl.smarthouse.smartmodule.model.types.ActorType;
 
 import java.time.LocalDateTime;
@@ -25,9 +24,6 @@ public class SDS011 extends Actor {
   public void setCommand(final SDS011Command command) {
     this.command = command;
   }
-
-  @Override
-  public void setCommand(final Command command) {}
 
   @Override
   public void setResponse(final String response) throws JsonProcessingException {

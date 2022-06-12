@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
-import pl.smarthouse.smartmodule.model.actors.Command;
 import pl.smarthouse.smartmodule.model.types.ActorType;
 
 import java.time.LocalDateTime;
@@ -20,11 +19,6 @@ public class BME280 extends Actor {
   public BME280(@NonNull final String name) {
     super(ActorType.BME280, name);
     setCommand(BME280Command.NO_ACTION);
-  }
-
-  @Override
-  public void setCommand(final Command command) {
-    this.command = (BME280Command) command;
   }
 
   @Override
