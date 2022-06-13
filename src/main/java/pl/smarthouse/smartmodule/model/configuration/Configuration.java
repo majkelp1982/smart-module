@@ -1,15 +1,14 @@
 package pl.smarthouse.smartmodule.model.configuration;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 import pl.smarthouse.smartmodule.model.actors.ActorMap;
 import pl.smarthouse.smartmodule.model.types.ModuleType;
 import pl.smarthouse.smartmodule.utils.ModuleConfigValidator;
 
 @Builder
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Configuration {
   @NonNull private ModuleType type;

@@ -15,9 +15,11 @@ import java.time.LocalDateTime;
 public class BME280 extends Actor {
   private BME280Command command;
   private BME280Response response;
+  private int csPin;
 
-  public BME280(@NonNull final String name) {
+  public BME280(@NonNull final String name, final int csPin) {
     super(ActorType.BME280, name);
+    this.csPin = csPin;
     setCommand(BME280Command.NO_ACTION);
   }
 

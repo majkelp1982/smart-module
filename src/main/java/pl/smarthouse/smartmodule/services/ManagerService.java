@@ -1,6 +1,6 @@
 package pl.smarthouse.smartmodule.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.smarthouse.loghandler.model.ErrorDto;
@@ -15,7 +15,7 @@ import java.net.ConnectException;
 import java.time.Duration;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class ManagerService {
   private static final String NO_IP_FOUND = "No IP found for mac address %s";
@@ -24,15 +24,15 @@ public class ManagerService {
 
   private final ModuleManagerConfiguration moduleManagerConfiguration =
       new ModuleManagerConfiguration();
-  Configuration configuration;
-  LogService logService;
+  private Configuration configuration;
+  private final LogService logService;
 
   private static int retryMs = 5000;
   private static final int MAX_RETRY_MS = 10 * 60 * 1000;
 
-  public Mono<String> retrieveModuleIP() {
-    return Mono.justOrEmpty(configuration.getBaseUrl())
-        .switchIfEmpty(Mono.defer(() -> getDBModuleIpAddress(configuration.getMacAddress())))
+  public void retrieveModuleIP() {
+    Mono.justOrEmpty(configuration.getBaseUrl())
+        .switchIfEmpty(getDBModuleIpAddress(configuration.getMacAddress()))
         .switchIfEmpty(
             Mono.error(
                 new ConnectException(String.format(NO_IP_FOUND, configuration.getMacAddress()))))
@@ -56,7 +56,8 @@ public class ManagerService {
                 .onRetryExhaustedThrow(
                     (retryBackoffSpec, retrySignal) -> {
                       throw new RuntimeException(GETTING_IP_GOES_WRONG);
-                    }));
+                    }))
+        .block();
   }
 
   private Mono<String> getDBModuleIpAddress(final String macAddress) {
@@ -66,5 +67,9 @@ public class ManagerService {
         .uri("/ip?macAddress=" + macAddress)
         .retrieve()
         .bodyToMono(String.class);
+  }
+
+  public void setConfiguration(final Configuration configuration) {
+    this.configuration = configuration;
   }
 }

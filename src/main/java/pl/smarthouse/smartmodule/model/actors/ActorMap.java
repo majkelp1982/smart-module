@@ -1,9 +1,14 @@
 package pl.smarthouse.smartmodule.model.actors;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+@Getter
+@Setter
 public class ActorMap {
   Map<String, Actor> actorMap = new HashMap<>();
 
