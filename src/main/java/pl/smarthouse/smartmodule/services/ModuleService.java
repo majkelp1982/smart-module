@@ -34,7 +34,7 @@ public class ModuleService {
   }
 
   private void actionOnError(final HttpStatus httpStatus) {
-    if (HttpStatus.UPGRADE_REQUIRED.equals(httpStatus)) {
+    if (HttpStatus.PRECONDITION_REQUIRED.equals(httpStatus)) {
       sendConfigurationToModule();
     }
     if (httpStatus.is4xxClientError()) {
@@ -50,10 +50,7 @@ public class ModuleService {
         .bodyValue(configuration)
         .retrieve()
         .bodyToMono(String.class)
-        .doOnError(
-            throwable -> {
-              log.error(throwable.getMessage());
-            })
+        .doOnError(throwable -> log.error(throwable.getMessage()))
         .block();
   }
 
@@ -68,10 +65,7 @@ public class ModuleService {
         .map(moduleResponses -> ResponseUtils.saveResponses(configuration, moduleResponses))
         .doOnError(
             WebClientResponseException.class, throwable -> actionOnError(throwable.getStatusCode()))
-        .doOnError(
-            throwable -> {
-              log.error(throwable.getMessage());
-            })
+        .doOnError(throwable -> log.error(throwable.getMessage()))
         .subscribe();
   }
 
