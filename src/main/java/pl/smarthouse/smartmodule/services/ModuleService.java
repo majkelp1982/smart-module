@@ -38,7 +38,8 @@ public class ModuleService {
       sendConfigurationToModule();
     }
     if (httpStatus.is4xxClientError()) {
-      System.out.println("400");
+      // TODO refine action in case 400 client error
+      log.info("400");
     }
   }
 
@@ -51,7 +52,7 @@ public class ModuleService {
         .retrieve()
         .bodyToMono(String.class)
         .doOnError(throwable -> log.error(throwable.getMessage()))
-        .block();
+        .subscribe();
   }
 
   private void exchangeCommand(final ModuleCommands moduleCommands) {

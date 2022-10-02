@@ -10,17 +10,17 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 public class ActorMap {
-  Map<String, Actor> actorMap = new HashMap<>();
+  Map<String, Actor> actors = new HashMap<>();
 
   public Actor putActor(final Actor actor) {
-    return actorMap.put(actor.getName(), actor);
+    return actors.put(actor.getName(), actor);
   }
 
   public Actor getActor(final String name) {
-    return actorMap.get(name);
+    return actors.get(name);
   }
 
   public Stream<Actor> stream() {
-    return actorMap.values().stream();
+    return actors.values().stream();
   }
 }
