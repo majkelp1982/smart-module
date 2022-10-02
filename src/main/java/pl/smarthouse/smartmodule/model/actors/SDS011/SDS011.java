@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
-import pl.smarthouse.smartmodule.model.types.ActorType;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +16,7 @@ public class SDS011 extends Actor {
   private SDS011Response response;
 
   public SDS011(@NonNull final String name) {
-    super(ActorType.SDS011, name);
+    super(name);
     setCommand(SDS011Command.NO_ACTION);
   }
 

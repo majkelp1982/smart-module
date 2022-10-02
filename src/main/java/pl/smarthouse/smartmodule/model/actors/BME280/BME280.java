@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
-import pl.smarthouse.smartmodule.model.types.ActorType;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +17,7 @@ public class BME280 extends Actor {
   private int csPin;
 
   public BME280(@NonNull final String name, final int csPin) {
-    super(ActorType.BME280, name);
+    super(name);
     this.csPin = csPin;
     setCommand(BME280Command.NO_ACTION);
   }
