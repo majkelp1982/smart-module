@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import pl.smarthouse.smartmodule.exceptions.InvalidResponseException;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import pl.smarthouse.smartmodule.model.module.ModuleCommands;
@@ -24,6 +23,12 @@ import static pl.smarthouse.smartmodule.model.module.ModuleResponses.VERSION;
 public class ModuleService {
   private static final String WRONG_TYPE = "Type don't match. Should be %s, is: %s";
   private static final String WRONG_VERSION = "Version don't match. Should be %s, is: %s";
+  private static final String ERROR_WHILE_EXCHANGE = "Error while exchange with module: {}";
+  private static final String CONFIGURATION_MISSING =
+      "Configuration is missing in module. Will be send.";
+  private static final String ERROR_WHILE_SENDING_CONFIGURATION =
+      "Error while sending configuration: {}";
+  private static final String DEVICE_RESPOND_ERROR = "Device respond error: {}";
 
   private final ManagerService managerService;
   private Configuration configuration;
@@ -42,13 +47,13 @@ public class ModuleService {
     exchangeCommand(moduleCommands);
   }
 
-  private void actionOnError(final HttpStatus httpStatus) {
+  private void actionOnError(final HttpStatus httpStatus, final String message) {
     if (HttpStatus.PRECONDITION_REQUIRED.equals(httpStatus)) {
+      log.info(CONFIGURATION_MISSING, message);
       sendConfigurationToModule();
     }
     if (httpStatus.is4xxClientError()) {
-      // TODO refine action in case 400 client error
-      log.info("400");
+      log.error(DEVICE_RESPOND_ERROR, message);
     }
   }
 
@@ -60,7 +65,8 @@ public class ModuleService {
         .bodyValue(configuration)
         .retrieve()
         .bodyToMono(String.class)
-        .doOnError(throwable -> log.error(throwable.getMessage()))
+        .doOnError(
+            throwable -> log.error(ERROR_WHILE_SENDING_CONFIGURATION, throwable.getMessage()))
         .subscribe();
   }
 
@@ -72,14 +78,22 @@ public class ModuleService {
         .bodyValue(moduleCommands)
         .exchangeToMono(this::validateResponse)
         .map(map -> ResponseUtils.saveResponses(configuration, map))
-        .doOnError(
-            WebClientResponseException.class, throwable -> actionOnError(throwable.getStatusCode()))
-        .doOnError(throwable -> log.error(throwable.getMessage()))
+        .doOnError(throwable -> log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage()))
         .subscribe();
   }
 
   private Mono<Map> validateResponse(final ClientResponse clientResponse) {
-    return clientResponse.bodyToMono(Map.class).map(this::checkTypeAndVersion);
+    if (clientResponse.statusCode().is2xxSuccessful()) {
+      return clientResponse.bodyToMono(Map.class).map(this::checkTypeAndVersion);
+    } else {
+      return clientResponse
+          .bodyToMono(Map.class)
+          .flatMap(
+              map -> {
+                actionOnError(clientResponse.statusCode(), (String) map.get("message"));
+                return Mono.empty();
+              });
+    }
   }
 
   public Map checkTypeAndVersion(final Map map) {

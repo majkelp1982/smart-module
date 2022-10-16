@@ -1,6 +1,5 @@
 package pl.smarthouse.smartmodule.model.actors.BME280;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -24,9 +23,10 @@ public class BME280 extends Actor {
   }
 
   @Override
-  public void setResponse(final Map response) throws JsonProcessingException {
+  public void setResponse(final Map response) {
     final ObjectMapper objectMapper = new ObjectMapper();
     this.response = objectMapper.convertValue(response, BME280Response.class);
+    this.response.setTemperature((int) (this.response.getTemperature() * 100) / 100.00);
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 }
