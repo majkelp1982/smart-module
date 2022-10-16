@@ -12,6 +12,10 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class ModuleResponses {
+  public static final String TYPE = "type";
+  public static final String VERSION = "version";
+  public static final String RESPONSE_MAP = "responseMap";
+
   @NonNull private ModuleType type;
   @NonNull private String version;
   @NonNull private Map<String, String> responseMap;

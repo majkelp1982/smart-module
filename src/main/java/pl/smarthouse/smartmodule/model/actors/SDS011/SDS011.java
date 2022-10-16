@@ -8,6 +8,7 @@ import lombok.Setter;
 import pl.smarthouse.smartmodule.model.actors.Actor;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -25,9 +26,9 @@ public class SDS011 extends Actor {
   }
 
   @Override
-  public void setResponse(final String response) throws JsonProcessingException {
+  public void setResponse(final Map response) throws JsonProcessingException {
     final ObjectMapper objectMapper = new ObjectMapper();
-    this.response = objectMapper.readValue(response, SDS011Response.class);
+    this.response = objectMapper.convertValue(response, SDS011Response.class);
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 }

@@ -4,17 +4,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import pl.smarthouse.smartmodule.exceptions.InvalidResponseException;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import pl.smarthouse.smartmodule.model.module.ModuleCommands;
-import pl.smarthouse.smartmodule.model.module.ModuleResponses;
 import pl.smarthouse.smartmodule.utils.CommandUtils;
 import pl.smarthouse.smartmodule.utils.ResponseUtils;
+import reactor.core.publisher.Mono;
+
+import java.util.Map;
+
+import static pl.smarthouse.smartmodule.model.module.ModuleResponses.TYPE;
+import static pl.smarthouse.smartmodule.model.module.ModuleResponses.VERSION;
 
 @RequiredArgsConstructor
 @Slf4j
 public class ModuleService {
+  private static final String WRONG_TYPE = "Type don't match. Should be %s, is: %s";
+  private static final String WRONG_VERSION = "Version don't match. Should be %s, is: %s";
 
   private final ManagerService managerService;
   private Configuration configuration;
@@ -61,13 +70,29 @@ public class ModuleService {
         .uri(configuration.getBaseUrl() + "/action")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(moduleCommands)
-        .retrieve()
-        .bodyToMono(ModuleResponses.class)
-        .map(moduleResponses -> ResponseUtils.saveResponses(configuration, moduleResponses))
+        .exchangeToMono(this::validateResponse)
+        .map(map -> ResponseUtils.saveResponses(configuration, map))
         .doOnError(
             WebClientResponseException.class, throwable -> actionOnError(throwable.getStatusCode()))
         .doOnError(throwable -> log.error(throwable.getMessage()))
         .subscribe();
+  }
+
+  private Mono<Map> validateResponse(final ClientResponse clientResponse) {
+    return clientResponse.bodyToMono(Map.class).map(this::checkTypeAndVersion);
+  }
+
+  public Map checkTypeAndVersion(final Map map) {
+    final String type = map.get(TYPE).toString();
+    final String version = map.get(VERSION).toString();
+    if (!type.equals(configuration.getType().toString())) {
+      throw new InvalidResponseException(String.format(WRONG_TYPE, configuration.getType(), type));
+    }
+    if (!version.equals(configuration.getVersion())) {
+      throw new InvalidResponseException(
+          String.format(WRONG_VERSION, configuration.getVersion(), version));
+    }
+    return map;
   }
 
   public void setConfiguration(final Configuration configuration) {

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Getter
 public abstract class Actor {
@@ -12,5 +14,5 @@ public abstract class Actor {
 
   public abstract Command getCommand();
 
-  public abstract void setResponse(final String response) throws JsonProcessingException;
+  public abstract void setResponse(final Map response) throws JsonProcessingException;
 }
