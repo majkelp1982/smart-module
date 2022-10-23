@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors;
+package pl.smarthouse.smartmodule.model.actors.actor;
 
 import lombok.Getter;
 import lombok.Setter;

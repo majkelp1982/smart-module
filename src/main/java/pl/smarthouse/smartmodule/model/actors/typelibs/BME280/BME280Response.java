@@ -1,8 +1,8 @@
-package pl.smarthouse.smartmodule.model.actors.BME280;
+package pl.smarthouse.smartmodule.model.actors.typelibs.BME280;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.smarthouse.smartmodule.model.actors.Response;
+import pl.smarthouse.smartmodule.model.actors.response.Response;
 
 @Getter
 @Setter

@@ -3,7 +3,7 @@ package pl.smarthouse.smartmodule.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.smarthouse.smartmodule.model.actors.Actor;
+import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import reactor.core.publisher.Mono;
 

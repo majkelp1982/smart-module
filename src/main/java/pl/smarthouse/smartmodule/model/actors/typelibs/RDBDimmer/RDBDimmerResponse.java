@@ -1,8 +1,8 @@
-package pl.smarthouse.smartmodule.model.actors.RDBDimmer;
+package pl.smarthouse.smartmodule.model.actors.typelibs.RDBDimmer;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.smarthouse.smartmodule.model.actors.Response;
+import pl.smarthouse.smartmodule.model.actors.response.Response;
 
 @Getter
 @Setter

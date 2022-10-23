@@ -1,10 +1,12 @@
-package pl.smarthouse.smartmodule.model.actors.BME280;
+package pl.smarthouse.smartmodule.model.actors.typelibs.BME280;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import pl.smarthouse.smartmodule.model.actors.Actor;
+import pl.smarthouse.smartmodule.model.actors.actor.Actor;
+import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
+import pl.smarthouse.smartmodule.model.types.ActorType;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -12,14 +14,19 @@ import java.util.Map;
 @Setter
 @Getter
 public class BME280 extends Actor {
-  private BME280Command command;
+  private BME280CommandSet commandSet;
   private BME280Response response;
   private int csPin;
 
   public BME280(@NonNull final String name, final int csPin) {
-    super(name);
+    super(ActorType.BME280, name);
     this.csPin = csPin;
-    setCommand(BME280Command.NO_ACTION);
+    setCommandSet(new BME280CommandSet(BME280CommandType.NO_ACTION));
+  }
+
+  @Override
+  public CommandSet getCommandSet() {
+    return commandSet;
   }
 
   @Override
