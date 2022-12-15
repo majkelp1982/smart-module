@@ -84,10 +84,14 @@ public class ModuleService {
 
   private Mono<Map> validateResponse(final ClientResponse clientResponse) {
     if (clientResponse.statusCode().is2xxSuccessful()) {
-      return clientResponse.bodyToMono(Map.class).map(this::checkTypeAndVersion);
+      return clientResponse
+          .bodyToMono(Map.class)
+          .map(this::checkTypeAndVersion)
+          .doOnError(throwable -> log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage()));
     } else {
       return clientResponse
           .bodyToMono(Map.class)
+          .doOnError(throwable -> log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage()))
           .flatMap(
               map -> {
                 actionOnError(clientResponse.statusCode(), (String) map.get("message"));
