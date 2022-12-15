@@ -2,7 +2,6 @@ package pl.smarthouse.smartmodule.model.configuration;
 
 import lombok.*;
 import pl.smarthouse.smartmodule.model.actors.actor.ActorMap;
-import pl.smarthouse.smartmodule.model.types.ModuleType;
 import pl.smarthouse.smartmodule.utils.ModuleConfigValidator;
 
 @Builder
@@ -11,14 +10,14 @@ import pl.smarthouse.smartmodule.utils.ModuleConfigValidator;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Configuration {
-  @NonNull private ModuleType type;
+  @NonNull private String type;
   @NonNull private String version;
   @NonNull private String macAddress;
   @NonNull private ActorMap actorMap;
   private String baseUrl;
 
   public Configuration(
-      @NonNull final ModuleType type,
+      @NonNull final String type,
       @NonNull final String version,
       @NonNull final String macAddress,
       @NonNull final ActorMap actorMap) {

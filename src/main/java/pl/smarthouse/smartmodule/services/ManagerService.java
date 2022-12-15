@@ -48,7 +48,7 @@ public class ManagerService {
                 retryMs = MAX_RETRY_MS;
               }
               final ErrorDto errorDto =
-                  LogUtils.error(configuration.getType().toString(), throwable.getMessage());
+                  LogUtils.error(configuration.getType(), throwable.getMessage());
               logService.error(errorDto);
             })
         .retryWhen(
