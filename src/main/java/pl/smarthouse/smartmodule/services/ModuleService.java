@@ -25,7 +25,7 @@ public class ModuleService {
   private static final String WRONG_VERSION = "Version don't match. Should be %s, is: %s";
   private static final String ERROR_WHILE_EXCHANGE = "Error while exchange with module: {}";
   private static final String CONFIGURATION_MISSING =
-      "Configuration is missing in module. Will be send.";
+      "Configuration is missing in module. Will be send. Message:{}";
   private static final String ERROR_WHILE_SENDING_CONFIGURATION =
       "Error while sending configuration: {}";
   private static final String DEVICE_RESPOND_ERROR = "Device respond error: {}";
@@ -36,7 +36,7 @@ public class ModuleService {
 
   public void exchange() {
     if (configuration.getBaseUrl() == null) {
-      managerService.retrieveModuleIP();
+      managerService.retrieveModuleIpAndCheckFirmwareVersion();
     }
     final ModuleCommands moduleCommands = CommandUtils.getCommandBody(configuration);
     if (moduleCommands.getCommandMap().isEmpty()) {

@@ -11,6 +11,7 @@ import pl.smarthouse.smartmodule.utils.ModuleConfigValidator;
 @AllArgsConstructor
 public class Configuration {
   @NonNull private String type;
+  @NonNull private String firmware;
   @NonNull private String version;
   @NonNull private String macAddress;
   @NonNull private ActorMap actorMap;
@@ -18,11 +19,14 @@ public class Configuration {
 
   public Configuration(
       @NonNull final String type,
+      @NonNull final String firmware,
       @NonNull final String version,
       @NonNull final String macAddress,
       @NonNull final ActorMap actorMap) {
-    ModuleConfigValidator.isVersionValid.accept(version);
+    ModuleConfigValidator.isVersionOrFirmwareFormatCorrect.accept(version);
+    ModuleConfigValidator.isVersionOrFirmwareFormatCorrect.accept(firmware);
     this.type = type;
+    this.firmware = firmware;
     this.version = version;
     this.macAddress = macAddress;
     this.actorMap = actorMap;
