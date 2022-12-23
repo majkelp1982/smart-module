@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
-import pl.smarthouse.loghandler.model.ErrorDto;
+import pl.smarthouse.loghandler.model.dto.ErrorDto;
 import pl.smarthouse.loghandler.service.LogService;
 import pl.smarthouse.loghandler.utils.LogUtils;
 import pl.smarthouse.modulemanager.configuration.ModuleManagerConfiguration;
@@ -24,7 +24,7 @@ import java.util.Objects;
 public class ManagerService {
   private static final String NO_IP_FOUND = "No IP found for mac address %s";
   private static final String FIRMWARE_DONT_MATCH =
-      "Service firmware declaration: %s, don't match module firmware: %s";
+      "Expected firmware: %s, don't match module firmware: %s";
   private static final String GETTING_IP_GOES_WRONG = "Getting IP address from module goes wrong";
   private static final String SUCCESSFUL_SET_BASE_IP = "Successful set base IP for module: {}";
   private static final long RETRY_MAX_ATTEMPT = 1L;

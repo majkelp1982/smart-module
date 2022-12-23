@@ -8,14 +8,18 @@
         <version>2.7.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <properties>
+        <java.version>11</java.version>
+        <smart.version>3.1</smart.version>
+    </properties>
+
     <groupId>pl.smarthouse</groupId>
     <artifactId>smart-module</artifactId>
     <version>3.1</version>
     <name>smart-module</name>
     <description>Generic for smart module</description>
-    <properties>
-        <java.version>11</java.version>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -36,7 +40,7 @@
         <dependency>
             <groupId>pl.smarthouse</groupId>
             <artifactId>module-manager</artifactId>
-            <version>3.1</version>
+            <version>${smart.version}</version>
             <scope>compile</scope>
         </dependency>
         <!--        Module manager-->
@@ -44,7 +48,7 @@
         <dependency>
             <groupId>pl.smarthouse</groupId>
             <artifactId>log-handler</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${smart.version}</version>
         </dependency>
         <!--        Log handler-->
 
