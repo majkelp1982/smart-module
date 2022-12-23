@@ -16,7 +16,6 @@ import reactor.util.retry.Retry;
 
 import java.net.ConnectException;
 import java.time.Duration;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -37,12 +36,8 @@ public class ManagerService {
   private static int retryMs = 5000;
   private static final int MAX_RETRY_MS = 10 * 60 * 1000;
 
-  public void retrieveModuleIpAndCheckFirmwareVersion() {
-    if (!Objects.isNull(configuration.getBaseUrl()) && !configuration.getBaseUrl().isEmpty()) {
-      return;
-    }
-
-    getModuleSettingsByMacAddress(configuration.getMacAddress())
+  public Mono<String> retrieveModuleIpAndCheckFirmwareVersion() {
+    return getModuleSettingsByMacAddress(configuration.getMacAddress())
         .switchIfEmpty(
             Mono.defer(
                 () ->
@@ -51,6 +46,7 @@ public class ManagerService {
                             String.format(NO_IP_FOUND, configuration.getMacAddress())))))
         .flatMap(this::checkFirmwareVersion)
         .flatMap(this::setBaseUrl)
+        .map(SettingsDto::toString)
         .doOnSuccess(settingsDto -> log.info(SUCCESSFUL_SET_BASE_IP, settingsDto))
         .doOnError(
             throwable -> {
@@ -67,8 +63,7 @@ public class ManagerService {
                 .onRetryExhaustedThrow(
                     (retryBackoffSpec, retrySignal) -> {
                       throw new RuntimeException(GETTING_IP_GOES_WRONG);
-                    }))
-        .block();
+                    }));
   }
 
   private Mono<SettingsDto> checkFirmwareVersion(final SettingsDto settingsDto) {

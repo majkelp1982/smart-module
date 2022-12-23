@@ -32,11 +32,15 @@ public class Configuration {
     this.actorMap = actorMap;
   }
 
-  public void setBaseUrl(final String baseUrl) {
+  public void setBaseUrl(final @NonNull String baseUrl) {
     if (!baseUrl.startsWith("http")) {
       this.baseUrl = "http://" + baseUrl;
     } else {
       this.baseUrl = baseUrl;
     }
+  }
+
+  public void resetBaseUrl() {
+    this.baseUrl = null;
   }
 }

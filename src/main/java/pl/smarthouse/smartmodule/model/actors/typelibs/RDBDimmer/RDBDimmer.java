@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.types.ActorType;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Setter
 @Getter
+@ToString(callSuper = true)
 public class RDBDimmer extends Actor {
   private RDBDimmerCommandSet commandSet;
   private RDBDimmerResponse response;

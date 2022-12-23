@@ -1,7 +1,9 @@
 package pl.smarthouse.smartmodule.model.actors.typelibs.RDBDimmer;
 
+import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 
+@ToString(callSuper = true)
 public class RDBDimmerCommandSet extends CommandSet {
 
   public RDBDimmerCommandSet(final RDBDimmerCommandType commandType, final String value) {

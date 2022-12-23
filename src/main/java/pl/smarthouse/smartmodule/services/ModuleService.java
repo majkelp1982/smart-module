@@ -23,7 +23,11 @@ import static pl.smarthouse.smartmodule.model.module.ModuleResponses.VERSION;
 public class ModuleService {
   private static final String WRONG_TYPE = "Type don't match. Should be %s, is: %s";
   private static final String WRONG_VERSION = "Version don't match. Should be %s, is: %s";
-  private static final String ERROR_WHILE_EXCHANGE = "Error while exchange with module: {}";
+  private static final String ERROR_WHILE_EXCHANGE = "Error while exchange, reason: {}";
+  private static final String ERROR_WHILE_VALIDATION = "Error on validation, reason: {}";
+  private static final String ERROR_WEB_CLIENT = "Error while communicate with module, reason: {}";
+  private static final String ERROR_RESET_BASE_URL =
+      "Reset module base url caused by connection error";
   private static final String CONFIGURATION_MISSING =
       "Configuration is missing in module. Will be send. Message:{}";
   private static final String ERROR_WHILE_SENDING_CONFIGURATION =
@@ -35,16 +39,32 @@ public class ModuleService {
   private final WebClient webClient;
 
   public void exchange() {
-    if (configuration.getBaseUrl() == null) {
-      managerService.retrieveModuleIpAndCheckFirmwareVersion();
-    }
-    final ModuleCommands moduleCommands = CommandUtils.getCommandBody(configuration);
+    Mono.justOrEmpty(configuration.getBaseUrl())
+        .switchIfEmpty(Mono.defer(managerService::retrieveModuleIpAndCheckFirmwareVersion))
+        .flatMap(ignore -> Mono.just(CommandUtils.getCommandBody(configuration)))
+        .flatMap(this::checkModuleCommands)
+        .flatMap(this::exchangeCommand)
+        .doOnError(
+            tes -> tes.getMessage().contains("connection"),
+            exception -> {
+              log.error(ERROR_RESET_BASE_URL);
+              configuration.resetBaseUrl();
+            })
+        .onErrorResume(
+            throwable -> {
+              log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage());
+              return Mono.empty();
+            })
+        .subscribe();
+  }
+
+  private Mono<ModuleCommands> checkModuleCommands(final ModuleCommands moduleCommands) {
     if (moduleCommands.getCommandMap().isEmpty()) {
       log.info("Sending command skipped. No commands to send");
-      return;
+      return Mono.empty();
     }
     log.info("Sending command: {}", moduleCommands);
-    exchangeCommand(moduleCommands);
+    return Mono.just(moduleCommands);
   }
 
   private void actionOnError(final HttpStatus httpStatus, final String message) {
@@ -70,16 +90,15 @@ public class ModuleService {
         .subscribe();
   }
 
-  private void exchangeCommand(final ModuleCommands moduleCommands) {
-    webClient
+  private Mono<Map> exchangeCommand(final ModuleCommands moduleCommands) {
+    return webClient
         .post()
         .uri(configuration.getBaseUrl() + "/action")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(moduleCommands)
         .exchangeToMono(this::validateResponse)
-        .map(map -> ResponseUtils.saveResponses(configuration, map))
-        .doOnError(throwable -> log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage()))
-        .subscribe();
+        .flatMap(map -> ResponseUtils.saveResponses(configuration, map))
+        .doOnError(throwable -> log.error(ERROR_WEB_CLIENT, throwable.getMessage()));
   }
 
   private Mono<Map> validateResponse(final ClientResponse clientResponse) {
@@ -87,11 +106,11 @@ public class ModuleService {
       return clientResponse
           .bodyToMono(Map.class)
           .map(this::checkTypeAndVersion)
-          .doOnError(throwable -> log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage()));
+          .doOnError(throwable -> log.error(ERROR_WHILE_VALIDATION, throwable.getMessage()));
     } else {
       return clientResponse
           .bodyToMono(Map.class)
-          .doOnError(throwable -> log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage()))
+          .doOnError(throwable -> log.error(ERROR_WHILE_VALIDATION, throwable.getMessage()))
           .flatMap(
               map -> {
                 actionOnError(clientResponse.statusCode(), (String) map.get("message"));

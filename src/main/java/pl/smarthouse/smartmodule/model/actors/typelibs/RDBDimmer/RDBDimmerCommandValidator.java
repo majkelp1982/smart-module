@@ -1,9 +1,11 @@
 package pl.smarthouse.smartmodule.model.actors.typelibs.RDBDimmer;
 
+import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.command.CommandValidator;
 
 import java.util.List;
 
+@ToString(callSuper = true)
 public class RDBDimmerCommandValidator extends CommandValidator {
 
   @Override
