@@ -86,7 +86,7 @@ public class ManagerService {
     return Mono.just(settingsDto);
   }
 
-  private Mono<SettingsDto> getModuleSettingsByMacAddress(final String macAddress) {
+  public Mono<SettingsDto> getModuleSettingsByMacAddress(final String macAddress) {
     return moduleManagerConfiguration
         .webClient()
         .get()
