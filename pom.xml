@@ -16,7 +16,7 @@
 
     <groupId>pl.smarthouse</groupId>
     <artifactId>smart-module</artifactId>
-    <version>3.1</version>
+    <version>3.2</version>
     <name>smart-module</name>
     <description>Generic for smart module</description>
 
