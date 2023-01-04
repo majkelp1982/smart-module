@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 pl.smarthouse.smartmodule.services.ManagerService,\
 pl.smarthouse.smartmodule.services.ModuleService,\
-pl.smarthouse.smartmodule.controller.ServiceController\
+pl.smarthouse.smartmodule.controller.MaintenanceController,\
+pl.smarthouse.smartmodule.services.MaintenanceService\

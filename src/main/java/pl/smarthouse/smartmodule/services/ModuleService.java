@@ -38,8 +38,8 @@ public class ModuleService {
   private Configuration configuration;
   private final WebClient webClient;
 
-  public void exchange() {
-    Mono.justOrEmpty(configuration.getBaseUrl())
+  public Mono<Map> exchange() {
+    return Mono.justOrEmpty(configuration.getBaseUrl())
         .switchIfEmpty(Mono.defer(managerService::retrieveModuleIpAndCheckFirmwareVersion))
         .flatMap(ignore -> Mono.just(CommandUtils.getCommandBody(configuration)))
         .flatMap(this::checkModuleCommands)
@@ -54,8 +54,7 @@ public class ModuleService {
             throwable -> {
               log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage());
               return Mono.empty();
-            })
-        .subscribe();
+            });
   }
 
   private Mono<ModuleCommands> checkModuleCommands(final ModuleCommands moduleCommands) {

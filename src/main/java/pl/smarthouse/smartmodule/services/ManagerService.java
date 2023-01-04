@@ -11,11 +11,13 @@ import pl.smarthouse.modulemanager.configuration.ModuleManagerConfiguration;
 import pl.smarthouse.modulemanager.model.dto.SettingsDto;
 import pl.smarthouse.smartmodule.exceptions.ValidatorException;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.net.ConnectException;
 import java.time.Duration;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -108,5 +110,9 @@ public class ManagerService {
 
   public Configuration getConfiguration() {
     return this.configuration;
+  }
+
+  public Mono<List<String>> getActorNames() {
+    return Flux.fromStream(configuration.getActorMap().getActors().keySet().stream()).collectList();
   }
 }
