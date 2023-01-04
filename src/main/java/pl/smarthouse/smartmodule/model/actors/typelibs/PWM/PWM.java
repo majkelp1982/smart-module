@@ -29,7 +29,7 @@ public class PWM extends Actor {
       final int frequency,
       final int resolution,
       final int pin) {
-    super(ActorType.BME280, name);
+    super(ActorType.PWM, name);
     this.channel = channel;
     this.frequency = frequency;
     this.resolution = resolution;

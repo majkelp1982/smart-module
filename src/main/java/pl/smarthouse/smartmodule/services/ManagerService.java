@@ -105,4 +105,8 @@ public class ManagerService {
   public void setConfiguration(final Configuration configuration) {
     this.configuration = configuration;
   }
+
+  public Configuration getConfiguration() {
+    return this.configuration;
+  }
 }
