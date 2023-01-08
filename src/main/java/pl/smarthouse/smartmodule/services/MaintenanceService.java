@@ -18,7 +18,11 @@ public class MaintenanceService {
   private final ManagerService managerService;
   private final ModuleService moduleService;
 
-  public Mono<Map> setActorCommand(
+  public Mono<Map> exchangeWithModule() {
+    return moduleService.exchange();
+  }
+
+  public Mono<Actor> setActorCommand(
       @NonNull final String actorName, @NonNull final String command, final String value) {
     return Mono.justOrEmpty(managerService.getConfiguration().getActorMap().getActor(actorName))
         .switchIfEmpty(
@@ -27,8 +31,7 @@ public class MaintenanceService {
                     Mono.error(
                         new IllegalArgumentException(
                             String.format("Actor name: %s not found", actorName)))))
-        .flatMap(actor -> generateCommand(actor, command, value))
-        .flatMap(actor -> moduleService.exchange());
+        .flatMap(actor -> generateCommand(actor, command, value));
   }
 
   private Mono<Actor> generateCommand(

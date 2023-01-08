@@ -6,7 +6,7 @@ public enum PWMCommandType implements CommandType {
   NO_ACTION,
   READ,
   ATTACH,
-  SET_DUTY_CYCLE;
+  DUTY_CYCLE;
 
   @Override
   public CommandType[] findAll() {

@@ -40,17 +40,20 @@ public class ActorsMaintenanceController {
       @RequestParam final String command,
       @RequestParam(required = false) final String value) {
     if ("ALL".equalsIgnoreCase(actorName)) {
-      Flux.fromStream(managerService.getConfiguration().getActorMap().stream())
+      return Flux.fromStream(managerService.getConfiguration().getActorMap().stream())
           .flatMap(
               actor ->
                   maintenanceService.setActorCommand(
                       actor.getName(),
                       command.toUpperCase(),
                       (value != null) ? value.toUpperCase() : null))
-          .then(Mono.empty())
-          .subscribe();
+          .collectList()
+          .flatMap(signal -> maintenanceService.exchangeWithModule());
+    } else {
+      return maintenanceService
+          .setActorCommand(
+              actorName, command.toUpperCase(), (value != null) ? value.toUpperCase() : null)
+          .flatMap(actor -> maintenanceService.exchangeWithModule());
     }
-    return maintenanceService.setActorCommand(
-        actorName, command.toUpperCase(), (value != null) ? value.toUpperCase() : null);
   }
 }

@@ -22,18 +22,24 @@ public class PWM extends Actor {
   private int frequency;
   private int resolution;
   private int pin;
+  private int defaultDutyCycle;
+  private boolean defaultEnabled;
 
   public PWM(
       @NonNull final String name,
       final int channel,
       final int frequency,
       final int resolution,
-      final int pin) {
+      final int pin,
+      final int defaultDutyCycle,
+      final boolean defaultEnabled) {
     super(ActorType.PWM, name);
     this.channel = channel;
     this.frequency = frequency;
     this.resolution = resolution;
     this.pin = pin;
+    this.defaultDutyCycle = defaultDutyCycle;
+    this.defaultEnabled = defaultEnabled;
     setCommandSet(new PWMCommandSet(PWMCommandType.NO_ACTION));
   }
 
