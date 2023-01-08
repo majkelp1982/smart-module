@@ -4,5 +4,6 @@ public enum ActorType {
   BME280,
   SDS011,
   DIMMER,
-  PWM
+  PWM,
+  PIN_OUTPUT
 }
