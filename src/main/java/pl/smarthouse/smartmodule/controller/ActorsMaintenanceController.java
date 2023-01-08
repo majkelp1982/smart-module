@@ -6,14 +6,16 @@ import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import pl.smarthouse.smartmodule.services.MaintenanceService;
 import pl.smarthouse.smartmodule.services.ManagerService;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
 
-@RestController(value = "/actors")
+@RestController
+@RequestMapping("/actors")
 @RequiredArgsConstructor
-public class MaintenanceController {
+public class ActorsMaintenanceController {
   private final ManagerService managerService;
   private final MaintenanceService maintenanceService;
 
@@ -37,6 +39,18 @@ public class MaintenanceController {
       @PathVariable final String actorName,
       @RequestParam final String command,
       @RequestParam(required = false) final String value) {
-    return maintenanceService.setActorCommand(actorName, command, value);
+    if ("ALL".equalsIgnoreCase(actorName)) {
+      Flux.fromStream(managerService.getConfiguration().getActorMap().stream())
+          .flatMap(
+              actor ->
+                  maintenanceService.setActorCommand(
+                      actor.getName(),
+                      command.toUpperCase(),
+                      (value != null) ? value.toUpperCase() : null))
+          .then(Mono.empty())
+          .subscribe();
+    }
+    return maintenanceService.setActorCommand(
+        actorName, command.toUpperCase(), (value != null) ? value.toUpperCase() : null);
   }
 }
