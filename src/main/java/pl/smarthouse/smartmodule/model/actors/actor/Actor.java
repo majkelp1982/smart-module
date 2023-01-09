@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
-import pl.smarthouse.smartmodule.model.types.ActorType;
+import pl.smarthouse.smartmodule.model.enums.ActorType;
 
 import java.util.Map;
 

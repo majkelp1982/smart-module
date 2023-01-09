@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import pl.smarthouse.smartmodule.exceptions.InvalidCommandException;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
-import pl.smarthouse.smartmodule.model.actors.typelibs.BME280.BME280CommandType;
-import pl.smarthouse.smartmodule.model.actors.typelibs.PWM.PWMCommandType;
+import pl.smarthouse.smartmodule.model.actors.type.BME280.BME280CommandType;
+import pl.smarthouse.smartmodule.model.actors.type.PWM.PWMCommandType;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
