@@ -8,6 +8,7 @@ import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.actors.type.BME280.BME280CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.PWM.PWMCommandType;
+import pl.smarthouse.smartmodule.model.actors.type.pin.PinCommandType;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -43,6 +44,9 @@ public class MaintenanceService {
         break;
       case PWM:
         commandSet.setCommandType(PWMCommandType.valueOf(command));
+        break;
+      case PIN:
+        commandSet.setCommandType(PinCommandType.valueOf(command));
         break;
       default:
         throw new InvalidCommandException("Unable to generate command. Actor type not recognized");

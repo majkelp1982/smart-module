@@ -4,6 +4,7 @@ import pl.smarthouse.smartmodule.model.actors.command.CommandType;
 
 public enum PinCommandType implements CommandType {
   NO_ACTION,
+  READ,
   SET;
 
   @Override
