@@ -23,8 +23,9 @@ import static pl.smarthouse.smartmodule.model.module.ModuleResponses.VERSION;
 public class ModuleService {
   private static final String WRONG_TYPE = "Type don't match. Should be %s, is: %s";
   private static final String WRONG_VERSION = "Version don't match. Should be %s, is: %s";
-  private static final String ERROR_WHILE_EXCHANGE = "Error while exchange, reason: {}";
-  private static final String ERROR_WHILE_VALIDATION = "Error on validation, reason: {}";
+  private static final String ERROR_WHILE_EXCHANGE = "Error while exchange, cause: {}, message: {}";
+  private static final String ERROR_WHILE_VALIDATION =
+      "Error on validation, cause: {}, message: {}";
   private static final String ERROR_WEB_CLIENT = "Error while communicate with module, reason: {}";
   private static final String ERROR_RESET_BASE_URL =
       "Reset module base url caused by connection error";
@@ -45,14 +46,14 @@ public class ModuleService {
         .flatMap(this::checkModuleCommands)
         .flatMap(this::exchangeCommand)
         .doOnError(
-            tes -> tes.getMessage().contains("connection"),
+            signal -> (signal != null) && (signal.getMessage().contains("connection")),
             exception -> {
               log.error(ERROR_RESET_BASE_URL);
               configuration.resetBaseUrl();
             })
         .onErrorResume(
             throwable -> {
-              log.error(ERROR_WHILE_EXCHANGE, throwable.getMessage());
+              log.error(ERROR_WHILE_EXCHANGE, throwable.getCause(), throwable.getMessage());
               return Mono.empty();
             });
   }
@@ -82,10 +83,12 @@ public class ModuleService {
         .uri(configuration.getBaseUrl() + "/configuration")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(configuration)
-        .retrieve()
-        .bodyToMono(String.class)
-        .doOnError(
-            throwable -> log.error(ERROR_WHILE_SENDING_CONFIGURATION, throwable.getMessage()))
+        .exchangeToMono(this::processResponse)
+        .onErrorResume(
+            throwable -> {
+              log.error(ERROR_WHILE_SENDING_CONFIGURATION, throwable.getMessage());
+              return Mono.empty();
+            })
         .subscribe();
   }
 
@@ -95,21 +98,25 @@ public class ModuleService {
         .uri(configuration.getBaseUrl() + "/action")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(moduleCommands)
-        .exchangeToMono(this::validateResponse)
+        .exchangeToMono(this::processResponse)
+        .map(this::checkTypeAndVersion)
         .flatMap(map -> ResponseUtils.saveResponses(configuration, map))
         .doOnError(throwable -> log.error(ERROR_WEB_CLIENT, throwable.getMessage()));
   }
 
-  private Mono<Map> validateResponse(final ClientResponse clientResponse) {
+  private Mono<Map> processResponse(final ClientResponse clientResponse) {
     if (clientResponse.statusCode().is2xxSuccessful()) {
       return clientResponse
           .bodyToMono(Map.class)
-          .map(this::checkTypeAndVersion)
-          .doOnError(throwable -> log.error(ERROR_WHILE_VALIDATION, throwable.getMessage()));
+          .doOnError(
+              throwable ->
+                  log.error(ERROR_WHILE_VALIDATION, throwable.getCause(), throwable.getMessage()));
     } else {
       return clientResponse
           .bodyToMono(Map.class)
-          .doOnError(throwable -> log.error(ERROR_WHILE_VALIDATION, throwable.getMessage()))
+          .doOnError(
+              throwable ->
+                  log.error(ERROR_WHILE_VALIDATION, throwable.getCause(), throwable.getMessage()))
           .flatMap(
               map -> {
                 actionOnError(clientResponse.statusCode(), (String) map.get("message"));
