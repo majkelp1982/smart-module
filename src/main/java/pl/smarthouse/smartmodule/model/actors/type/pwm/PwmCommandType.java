@@ -1,8 +1,8 @@
-package pl.smarthouse.smartmodule.model.actors.type.PWM;
+package pl.smarthouse.smartmodule.model.actors.type.pwm;
 
 import pl.smarthouse.smartmodule.model.actors.command.CommandType;
 
-public enum PWMCommandType implements CommandType {
+public enum PwmCommandType implements CommandType {
   NO_ACTION,
   READ,
   ATTACH,
@@ -10,6 +10,6 @@ public enum PWMCommandType implements CommandType {
 
   @Override
   public CommandType[] findAll() {
-    return PWMCommandType.values();
+    return PwmCommandType.values();
   }
 }

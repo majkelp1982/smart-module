@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.PWM;
+package pl.smarthouse.smartmodule.model.actors.type.pwm;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import pl.smarthouse.smartmodule.model.actors.response.Response;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class PWMResponse extends Response {
+public class PwmResponse extends Response {
   @JsonProperty(value = "isAttached")
   private boolean isAttached;
 

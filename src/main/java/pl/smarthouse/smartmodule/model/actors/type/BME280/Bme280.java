@@ -1,9 +1,10 @@
-package pl.smarthouse.smartmodule.model.actors.type.SDS011;
+package pl.smarthouse.smartmodule.model.actors.type.BME280;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.enums.ActorType;
@@ -13,13 +14,16 @@ import java.util.Map;
 
 @Setter
 @Getter
-public class SDS011 extends Actor {
-  private SDS011CommandSet commandSet;
-  private SDS011Response response;
+@ToString(callSuper = true)
+public class Bme280 extends Actor {
+  private Bme280CommandSet commandSet;
+  private Bme280Response response;
+  private int csPin;
 
-  public SDS011(@NonNull final String name) {
-    super(ActorType.SDS011, name);
-    setCommandSet(new SDS011CommandSet(SDS011CommandType.NO_ACTION));
+  public Bme280(@NonNull final String name, final int csPin) {
+    super(ActorType.BME280, name);
+    this.csPin = csPin;
+    setCommandSet(new Bme280CommandSet(Bme280CommandType.NO_ACTION));
   }
 
   @Override
@@ -30,7 +34,8 @@ public class SDS011 extends Actor {
   @Override
   public void setResponse(final Map response) {
     final ObjectMapper objectMapper = new ObjectMapper();
-    this.response = objectMapper.convertValue(response, SDS011Response.class);
+    this.response = objectMapper.convertValue(response, Bme280Response.class);
+    this.response.setTemperature((int) (this.response.getTemperature() * 100) / 100.00);
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 }

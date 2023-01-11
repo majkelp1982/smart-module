@@ -8,7 +8,7 @@ import pl.smarthouse.smartmodule.model.actors.response.Response;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class BME280Response extends Response {
+public class Bme280Response extends Response {
   private double temperature;
   private int pressure;
   private int humidity;

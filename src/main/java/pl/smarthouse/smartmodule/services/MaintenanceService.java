@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import pl.smarthouse.smartmodule.exceptions.InvalidCommandException;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
-import pl.smarthouse.smartmodule.model.actors.type.BME280.BME280CommandType;
-import pl.smarthouse.smartmodule.model.actors.type.PWM.PWMCommandType;
+import pl.smarthouse.smartmodule.model.actors.type.BME280.Bme280CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pin.PinCommandType;
+import pl.smarthouse.smartmodule.model.actors.type.pwm.PwmCommandType;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -40,10 +40,10 @@ public class MaintenanceService {
     final CommandSet commandSet = actor.getCommandSet();
     switch (actor.getType()) {
       case BME280:
-        commandSet.setCommandType(BME280CommandType.valueOf(command));
+        commandSet.setCommandType(Bme280CommandType.valueOf(command));
         break;
       case PWM:
-        commandSet.setCommandType(PWMCommandType.valueOf(command));
+        commandSet.setCommandType(PwmCommandType.valueOf(command));
         break;
       case PIN:
         commandSet.setCommandType(PinCommandType.valueOf(command));

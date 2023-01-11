@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.BME280;
+package pl.smarthouse.smartmodule.model.actors.type.RdbDimmer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
@@ -15,15 +15,17 @@ import java.util.Map;
 @Setter
 @Getter
 @ToString(callSuper = true)
-public class BME280 extends Actor {
-  private BME280CommandSet commandSet;
-  private BME280Response response;
-  private int csPin;
+public class RbdDimmer extends Actor {
+  private RdbDimmerCommandSet commandSet;
+  private RdbDimmerResponse response;
+  private int outputPin;
+  private int crossZeroPin;
 
-  public BME280(@NonNull final String name, final int csPin) {
-    super(ActorType.BME280, name);
-    this.csPin = csPin;
-    setCommandSet(new BME280CommandSet(BME280CommandType.NO_ACTION));
+  public RbdDimmer(@NonNull final String name, final int outputPin, final int crossZeroPin) {
+    super(ActorType.DIMMER, name);
+    this.outputPin = outputPin;
+    this.crossZeroPin = crossZeroPin;
+    setCommandSet(new RdbDimmerCommandSet(RdbDimmerCommandType.NO_ACTION));
   }
 
   @Override
@@ -34,8 +36,7 @@ public class BME280 extends Actor {
   @Override
   public void setResponse(final Map response) {
     final ObjectMapper objectMapper = new ObjectMapper();
-    this.response = objectMapper.convertValue(response, BME280Response.class);
-    this.response.setTemperature((int) (this.response.getTemperature() * 100) / 100.00);
+    this.response = objectMapper.convertValue(response, RdbDimmerResponse.class);
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 }

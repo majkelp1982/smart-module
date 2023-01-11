@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.PWM;
+package pl.smarthouse.smartmodule.model.actors.type.pwm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
@@ -15,9 +15,9 @@ import java.util.Map;
 @Setter
 @Getter
 @ToString(callSuper = true)
-public class PWM extends Actor {
-  private PWMCommandSet commandSet;
-  private PWMResponse response;
+public class Pwm extends Actor {
+  private PwmCommandSet commandSet;
+  private PwmResponse response;
   private int channel;
   private int frequency;
   private int resolution;
@@ -25,7 +25,7 @@ public class PWM extends Actor {
   private int defaultDutyCycle;
   private boolean defaultEnabled;
 
-  public PWM(
+  public Pwm(
       @NonNull final String name,
       final int channel,
       final int frequency,
@@ -40,7 +40,7 @@ public class PWM extends Actor {
     this.pin = pin;
     this.defaultDutyCycle = defaultDutyCycle;
     this.defaultEnabled = defaultEnabled;
-    setCommandSet(new PWMCommandSet(PWMCommandType.NO_ACTION));
+    setCommandSet(new PwmCommandSet(PwmCommandType.NO_ACTION));
   }
 
   @Override
@@ -51,7 +51,7 @@ public class PWM extends Actor {
   @Override
   public void setResponse(final Map response) {
     final ObjectMapper objectMapper = new ObjectMapper();
-    this.response = objectMapper.convertValue(response, PWMResponse.class);
+    this.response = objectMapper.convertValue(response, PwmResponse.class);
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 }

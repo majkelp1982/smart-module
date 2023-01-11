@@ -1,8 +1,8 @@
-package pl.smarthouse.smartmodule.model.actors.type.RDBDimmer;
+package pl.smarthouse.smartmodule.model.actors.type.RdbDimmer;
 
 import pl.smarthouse.smartmodule.model.actors.command.CommandType;
 
-public enum RDBDimmerCommandType implements CommandType {
+public enum RdbDimmerCommandType implements CommandType {
   NO_ACTION,
   MODE,
   POWER,
@@ -13,6 +13,6 @@ public enum RDBDimmerCommandType implements CommandType {
 
   @Override
   public CommandType[] findAll() {
-    return RDBDimmerCommandType.values();
+    return RdbDimmerCommandType.values();
   }
 }

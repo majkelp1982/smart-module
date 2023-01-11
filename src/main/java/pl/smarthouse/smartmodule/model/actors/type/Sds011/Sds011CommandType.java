@@ -1,8 +1,8 @@
-package pl.smarthouse.smartmodule.model.actors.type.SDS011;
+package pl.smarthouse.smartmodule.model.actors.type.Sds011;
 
 import pl.smarthouse.smartmodule.model.actors.command.CommandType;
 
-public enum SDS011CommandType implements CommandType {
+public enum Sds011CommandType implements CommandType {
   NO_ACTION,
   SLEEP,
   WAKEUP,
@@ -10,6 +10,6 @@ public enum SDS011CommandType implements CommandType {
 
   @Override
   public CommandType[] findAll() {
-    return SDS011CommandType.values();
+    return Sds011CommandType.values();
   }
 }

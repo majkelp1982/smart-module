@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.RDBDimmer;
+package pl.smarthouse.smartmodule.model.actors.type.RdbDimmer;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import pl.smarthouse.smartmodule.model.actors.response.Response;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class RDBDimmerResponse extends Response {
+public class RdbDimmerResponse extends Response {
   private String mode;
   private boolean state;
   private int power;
