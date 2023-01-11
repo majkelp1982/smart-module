@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.BME280;
+package pl.smarthouse.smartmodule.model.actors.type.Bme280;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;

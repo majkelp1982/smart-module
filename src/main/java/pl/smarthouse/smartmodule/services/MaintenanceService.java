@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.smarthouse.smartmodule.exceptions.InvalidCommandException;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
-import pl.smarthouse.smartmodule.model.actors.type.BME280.Bme280CommandType;
+import pl.smarthouse.smartmodule.model.actors.type.Bme280.Bme280CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pin.PinCommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pwm.PwmCommandType;
 import reactor.core.publisher.Mono;
