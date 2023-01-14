@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.RdbDimmer;
+package pl.smarthouse.smartmodule.model.actors.type.rdbDimmer;
 
 import lombok.Getter;
 import lombok.Setter;

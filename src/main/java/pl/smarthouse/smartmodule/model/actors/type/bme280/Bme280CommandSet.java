@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.Bme280;
+package pl.smarthouse.smartmodule.model.actors.type.bme280;
 
 import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;

@@ -1,4 +1,4 @@
-package pl.smarthouse.smartmodule.model.actors.type.Sds011;
+package pl.smarthouse.smartmodule.model.actors.type.sds011;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
