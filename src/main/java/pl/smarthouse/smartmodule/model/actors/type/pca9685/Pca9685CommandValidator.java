@@ -6,7 +6,7 @@ import pl.smarthouse.smartmodule.model.actors.command.CommandValidator;
 import java.util.List;
 
 @ToString(callSuper = true)
-public class PinCommandValidator extends CommandValidator {
+public class Pca9685CommandValidator extends CommandValidator {
   private static final int MIN_SERVO_MICROSECONDS = 0;
   private static final int MAX_SERVO_MICROSECONDS = 4000;
 
