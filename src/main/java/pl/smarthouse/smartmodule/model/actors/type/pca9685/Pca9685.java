@@ -18,7 +18,7 @@ public class Pca9685 extends Actor {
   int servoFrequencyHz;
 
   public Pca9685(@NonNull final String name, @NonNull final int servoFrequencyHz) {
-    super(ActorType.PIN, name);
+    super(ActorType.PCA9685, name);
     this.servoFrequencyHz = servoFrequencyHz;
     setCommandSet(new Pca9685CommandSet(Pca9685CommandType.NO_ACTION));
   }

@@ -4,6 +4,7 @@ import pl.smarthouse.smartmodule.model.actors.command.CommandType;
 
 public enum Pca9685CommandType implements CommandType {
   NO_ACTION,
+  WRITE_ALL_MICROSECONDS,
   WRITE_SERVO0_MICROSECONDS,
   WRITE_SERVO1_MICROSECONDS,
   WRITE_SERVO2_MICROSECONDS,

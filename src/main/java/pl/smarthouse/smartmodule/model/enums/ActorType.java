@@ -5,5 +5,6 @@ public enum ActorType {
   SDS011,
   DIMMER,
   PWM,
-  PIN
+  PIN,
+  PCA9685
 }
