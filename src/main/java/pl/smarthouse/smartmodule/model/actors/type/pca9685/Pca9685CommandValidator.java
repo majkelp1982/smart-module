@@ -13,6 +13,9 @@ public class Pca9685CommandValidator extends CommandValidator {
   @Override
   protected void prepareValidationMap() {
     commandValidationMap.put(
+        Pca9685CommandType.WRITE_ALL_MICROSECONDS,
+        List.of(MIN_SERVO_MICROSECONDS, MAX_SERVO_MICROSECONDS));
+    commandValidationMap.put(
         Pca9685CommandType.WRITE_SERVO0_MICROSECONDS,
         List.of(MIN_SERVO_MICROSECONDS, MAX_SERVO_MICROSECONDS));
     commandValidationMap.put(

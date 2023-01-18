@@ -7,6 +7,7 @@ import pl.smarthouse.smartmodule.exceptions.InvalidCommandException;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.actors.type.bme280.Bme280CommandType;
+import pl.smarthouse.smartmodule.model.actors.type.ds18b20.Ds18b20CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pca9685.Pca9685CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pin.PinCommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pwm.PwmCommandType;
@@ -51,6 +52,9 @@ public class MaintenanceService {
         break;
       case PCA9685:
         commandSet.setCommandType(Pca9685CommandType.valueOf(command));
+        break;
+      case DS18B20:
+        commandSet.setCommandType(Ds18b20CommandType.valueOf(command));
         break;
       default:
         throw new InvalidCommandException("Unable to generate command. Actor type not recognized");
