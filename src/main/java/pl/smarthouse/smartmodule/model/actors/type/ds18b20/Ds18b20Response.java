@@ -5,16 +5,11 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.response.Response;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 public class Ds18b20Response extends Response {
-  private List<Result> resultList;
-
-  class Result {
-    private String address;
-    private float temp;
-  }
+  private Set<Ds18b20Result> resultSet;
 }
