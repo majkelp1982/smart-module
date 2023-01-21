@@ -126,14 +126,13 @@ public class ModuleService {
   }
 
   public Map checkTypeAndVersion(final Map map) {
-    final String type = map.get(TYPE).toString();
-    final String version = map.get(VERSION).toString();
-    if (!type.equals(configuration.getType())) {
-      throw new InvalidResponseException(String.format(WRONG_TYPE, configuration.getType(), type));
-    }
-    if (!version.equals(configuration.getVersion())) {
+    if (!configuration.getType().equals(map.get(TYPE))) {
       throw new InvalidResponseException(
-          String.format(WRONG_VERSION, configuration.getVersion(), version));
+          String.format(WRONG_TYPE, configuration.getType(), map.get(TYPE)));
+    }
+    if (!configuration.getVersion().equals(map.get(VERSION))) {
+      throw new InvalidResponseException(
+          String.format(WRONG_VERSION, configuration.getVersion(), map.get(VERSION)));
     }
     return map;
   }
