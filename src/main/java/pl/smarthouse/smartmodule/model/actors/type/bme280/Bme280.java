@@ -17,7 +17,7 @@ import java.util.Map;
 @Getter
 @ToString(callSuper = true)
 public class Bme280 extends Actor {
-  private Bme280CommandSet commandSet;
+  @JsonIgnore private Bme280CommandSet commandSet;
   @JsonIgnore private Bme280Response response;
   private int csPin;
 

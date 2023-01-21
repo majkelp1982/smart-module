@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.pca9685;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.util.Map;
 @Getter
 @ToString(callSuper = true)
 public class Pca9685 extends Actor {
-  private Pca9685CommandSet commandSet;
+  @JsonIgnore private Pca9685CommandSet commandSet;
   int servoFrequencyHz;
 
   public Pca9685(@NonNull final String name, @NonNull final int servoFrequencyHz) {

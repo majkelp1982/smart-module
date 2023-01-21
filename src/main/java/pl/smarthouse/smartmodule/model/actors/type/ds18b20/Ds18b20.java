@@ -17,7 +17,7 @@ import java.util.Map;
 @Getter
 @ToString(callSuper = true)
 public class Ds18b20 extends Actor {
-  private Ds18b20CommandSet commandSet;
+  @JsonIgnore private Ds18b20CommandSet commandSet;
   @JsonIgnore private Ds18b20Response response;
   private int dsPin;
 

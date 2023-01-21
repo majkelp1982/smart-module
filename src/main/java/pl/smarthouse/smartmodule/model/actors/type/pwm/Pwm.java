@@ -17,7 +17,7 @@ import java.util.Map;
 @Getter
 @ToString(callSuper = true)
 public class Pwm extends Actor {
-  private PwmCommandSet commandSet;
+  @JsonIgnore private PwmCommandSet commandSet;
   @JsonIgnore private PwmResponse response;
   private int channel;
   private int frequency;

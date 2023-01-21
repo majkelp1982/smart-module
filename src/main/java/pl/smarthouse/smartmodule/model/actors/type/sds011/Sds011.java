@@ -15,7 +15,7 @@ import java.util.Map;
 @Setter
 @Getter
 public class Sds011 extends Actor {
-  private Sds011CommandSet commandSet;
+  @JsonIgnore private Sds011CommandSet commandSet;
   @JsonIgnore private Sds011Response response;
 
   public Sds011(@NonNull final String name) {

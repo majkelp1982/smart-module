@@ -18,7 +18,7 @@ import java.util.Map;
 @Getter
 @ToString(callSuper = true)
 public class Pin extends Actor {
-  private PinCommandSet commandSet;
+  @JsonIgnore private PinCommandSet commandSet;
   @JsonIgnore private PinResponse response;
   private int pin;
   private PinMode pinMode;

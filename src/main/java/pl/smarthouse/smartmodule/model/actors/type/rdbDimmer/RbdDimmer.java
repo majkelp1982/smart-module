@@ -17,7 +17,7 @@ import java.util.Map;
 @Getter
 @ToString(callSuper = true)
 public class RbdDimmer extends Actor {
-  private RdbDimmerCommandSet commandSet;
+  @JsonIgnore private RdbDimmerCommandSet commandSet;
   @JsonIgnore private RdbDimmerResponse response;
   private int outputPin;
   private int crossZeroPin;
