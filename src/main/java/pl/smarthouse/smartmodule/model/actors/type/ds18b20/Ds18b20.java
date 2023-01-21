@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.ds18b20;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,7 +18,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Ds18b20 extends Actor {
   private Ds18b20CommandSet commandSet;
-  private transient Ds18b20Response response;
+  @JsonIgnore private Ds18b20Response response;
   private int dsPin;
 
   public Ds18b20(@NonNull final String name, final int dsPin) {

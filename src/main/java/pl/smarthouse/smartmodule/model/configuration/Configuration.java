@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.configuration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import pl.smarthouse.smartmodule.model.actors.actor.ActorMap;
 import pl.smarthouse.smartmodule.utils.ModuleConfigValidator;
@@ -15,7 +16,7 @@ public class Configuration {
   @NonNull private String version;
   @NonNull private String macAddress;
   @NonNull private ActorMap actorMap;
-  private String baseUrl;
+  @JsonIgnore private String baseUrl;
 
   public Configuration(
       @NonNull final String type,

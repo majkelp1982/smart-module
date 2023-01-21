@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.pwm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,7 +18,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Pwm extends Actor {
   private PwmCommandSet commandSet;
-  private PwmResponse response;
+  @JsonIgnore private PwmResponse response;
   private int channel;
   private int frequency;
   private int resolution;

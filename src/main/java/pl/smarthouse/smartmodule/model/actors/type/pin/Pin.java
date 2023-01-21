@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.pin;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -18,7 +19,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Pin extends Actor {
   private PinCommandSet commandSet;
-  private PinResponse response;
+  @JsonIgnore private PinResponse response;
   private int pin;
   private PinMode pinMode;
   private PinState defaultPinState;

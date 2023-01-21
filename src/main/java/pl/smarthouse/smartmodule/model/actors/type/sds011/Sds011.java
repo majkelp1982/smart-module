@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.sds011;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,7 +16,7 @@ import java.util.Map;
 @Getter
 public class Sds011 extends Actor {
   private Sds011CommandSet commandSet;
-  private Sds011Response response;
+  @JsonIgnore private Sds011Response response;
 
   public Sds011(@NonNull final String name) {
     super(ActorType.SDS011, name);

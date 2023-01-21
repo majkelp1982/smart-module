@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.bme280;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,7 +18,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Bme280 extends Actor {
   private Bme280CommandSet commandSet;
-  private Bme280Response response;
+  @JsonIgnore private Bme280Response response;
   private int csPin;
 
   public Bme280(@NonNull final String name, final int csPin) {

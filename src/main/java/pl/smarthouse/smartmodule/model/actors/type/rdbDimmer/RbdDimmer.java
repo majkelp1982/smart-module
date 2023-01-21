@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.model.actors.type.rdbDimmer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,7 +18,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class RbdDimmer extends Actor {
   private RdbDimmerCommandSet commandSet;
-  private RdbDimmerResponse response;
+  @JsonIgnore private RdbDimmerResponse response;
   private int outputPin;
   private int crossZeroPin;
 
