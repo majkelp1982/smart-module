@@ -60,7 +60,7 @@ public class ModuleService {
 
   private Mono<ModuleCommands> checkModuleCommands(final ModuleCommands moduleCommands) {
     if (moduleCommands.getCommandMap().isEmpty()) {
-      log.info("Sending command skipped. No commands to send");
+      log.debug("Sending command skipped. No commands to send");
       return Mono.empty();
     }
     log.info("Sending command: {}", moduleCommands);
