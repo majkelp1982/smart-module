@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
+import pl.smarthouse.smartmodule.model.actors.response.Response;
 import pl.smarthouse.smartmodule.model.enums.ActorType;
 
 import java.util.Map;
@@ -18,6 +19,8 @@ public abstract class Actor {
   @NonNull protected String name;
 
   public abstract CommandSet getCommandSet();
+
+  public abstract Response getResponse();
 
   public abstract void setResponse(final Map response) throws JsonProcessingException;
 }

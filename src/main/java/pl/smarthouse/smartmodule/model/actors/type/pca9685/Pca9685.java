@@ -16,6 +16,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Pca9685 extends Actor {
   @JsonIgnore private Pca9685CommandSet commandSet;
+  @JsonIgnore private Pca9685Response response;
   int servoFrequencyHz;
 
   public Pca9685(@NonNull final String name, @NonNull final int servoFrequencyHz) {
