@@ -5,11 +5,12 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.response.Response;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 public class Ds18b20Response extends Response {
-  private Set<Ds18b20Result> resultSet;
+  private Set<Ds18b20Result> resultSet = new HashSet<>();
 }

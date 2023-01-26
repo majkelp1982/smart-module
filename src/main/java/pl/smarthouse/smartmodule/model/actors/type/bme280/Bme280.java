@@ -18,7 +18,7 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Bme280 extends Actor {
   @JsonIgnore private Bme280CommandSet commandSet;
-  @JsonIgnore private Bme280Response response;
+  @JsonIgnore private Bme280Response response = new Bme280Response();
   private int csPin;
 
   public Bme280(@NonNull final String name, final int csPin) {
@@ -35,8 +35,15 @@ public class Bme280 extends Actor {
   @Override
   public void setResponse(final Map response) {
     final ObjectMapper objectMapper = new ObjectMapper();
-    this.response = objectMapper.convertValue(response, Bme280Response.class);
-    this.response.setTemperature((int) (this.response.getTemperature() * 100) / 100.00);
-    this.response.setResponseUpdate(LocalDateTime.now());
+    final Bme280Response resp = objectMapper.convertValue(response, Bme280Response.class);
+    resp.setTemperature((int) (resp.getTemperature() * 100) / 100.00);
+    resp.setPressure(resp.getPressure() / 100.00);
+
+    final boolean isValid = Bme280ResponseValidator.isResponseValid(name, resp);
+    if (isValid) {
+      this.response = resp;
+      this.response.setResponseUpdate(LocalDateTime.now());
+    }
+    this.response.setError(!isValid);
   }
 }

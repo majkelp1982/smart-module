@@ -10,6 +10,7 @@ import pl.smarthouse.smartmodule.model.actors.response.Response;
 @ToString(callSuper = true)
 public class Bme280Response extends Response {
   private double temperature;
-  private int pressure;
+  private double pressure;
   private int humidity;
+  private boolean error;
 }
