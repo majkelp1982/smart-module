@@ -15,12 +15,11 @@ public class Ds18b20Utils {
   private static final String INVALID_DS18B20_ADDRESS_EXCEPTION =
       "Invalid DS18B20 address. Pattern: 40-12-1-7-51-138-1-132, current: %s";
 
-  boolean isErrorOnDs18b20Group(final Response ds18b20Response) {
+  public boolean isErrorOnDs18b20Group(final Response ds18b20Response) {
     final AtomicBoolean res = new AtomicBoolean(false);
     Optional.ofNullable((Ds18b20Response) ds18b20Response)
         .ifPresent(
-            response ->
-                res.set(response.getResultSet().stream().anyMatch(result -> result.isError())));
+            response -> res.set(response.getResultSet().stream().anyMatch(Ds18b20Result::isError)));
     return res.get();
   }
 

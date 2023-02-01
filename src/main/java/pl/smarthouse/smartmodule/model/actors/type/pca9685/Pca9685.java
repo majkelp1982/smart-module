@@ -9,6 +9,7 @@ import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.enums.ActorType;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Setter
@@ -31,5 +32,7 @@ public class Pca9685 extends Actor {
   }
 
   @Override
-  public void setResponse(final Map response) {}
+  public void setResponse(final Map response) {
+    this.response.setResponseUpdate(LocalDateTime.now());
+  }
 }
