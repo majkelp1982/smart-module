@@ -8,4 +8,7 @@ import pl.smarthouse.smartmodule.model.actors.response.Response;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class Pca9685Response extends Response {}
+public class Pca9685Response extends Response {
+  private String channel;
+  private int microseconds;
+}

@@ -20,7 +20,7 @@ public class ResponseUtils {
   public static Mono<Map> saveResponses(final Configuration configuration, final Map map) {
     final Map responseMap = (Map) map.get(RESPONSE_MAP);
     return Flux.fromIterable(responseMap.keySet())
-        .doOnNext(actorName -> log.info(SET_RESPONSE, actorName, responseMap.get(actorName)))
+        .doOnNext(actorName -> log.debug(SET_RESPONSE, actorName, responseMap.get(actorName)))
         .flatMap(actorName -> ActorUtils.getActor(configuration, actorName.toString()))
         .flatMap(actor -> setActorResponse((Actor) actor, responseMap))
         .collectList()

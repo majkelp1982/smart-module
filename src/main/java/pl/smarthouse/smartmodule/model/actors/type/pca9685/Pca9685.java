@@ -1,6 +1,7 @@
 package pl.smarthouse.smartmodule.model.actors.type.pca9685;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -33,6 +34,8 @@ public class Pca9685 extends Actor {
 
   @Override
   public void setResponse(final Map response) {
+    final ObjectMapper objectMapper = new ObjectMapper();
+    this.response = objectMapper.convertValue(response, Pca9685Response.class);
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 }
