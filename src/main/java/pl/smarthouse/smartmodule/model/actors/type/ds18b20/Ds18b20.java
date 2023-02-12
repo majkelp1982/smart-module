@@ -60,7 +60,7 @@ public class Ds18b20 extends Actor {
     this.response.setResponseUpdate(LocalDateTime.now());
   }
 
-  private Optional<Ds18b20Result> getDs18b20Result(final String address) {
+  public Optional<Ds18b20Result> getDs18b20Result(final String address) {
     return this.response.getResultSet().stream()
         .filter(ds18b20Result -> ds18b20Result.getAddress().equals(address))
         .findFirst();
