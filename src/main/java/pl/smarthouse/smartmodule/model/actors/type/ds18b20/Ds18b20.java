@@ -2,6 +2,10 @@ package pl.smarthouse.smartmodule.model.actors.type.ds18b20;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -9,11 +13,6 @@ import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.enums.ActorType;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Setter
 @Getter

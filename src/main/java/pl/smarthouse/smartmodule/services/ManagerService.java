@@ -1,7 +1,13 @@
 package pl.smarthouse.smartmodule.services;
 
+import java.net.ConnectException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import pl.smarthouse.loghandler.model.dto.ErrorDto;
@@ -15,10 +21,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
-import java.net.ConnectException;
-import java.time.Duration;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -29,7 +31,7 @@ public class ManagerService {
   private static final String GETTING_IP_GOES_WRONG = "Getting IP address from module goes wrong";
   private static final String SUCCESSFUL_SET_BASE_IP = "Successful set base IP for module: {}";
   private static final long RETRY_MAX_ATTEMPT = 1L;
-
+  private final Environment environment;
   private final ModuleManagerConfiguration moduleManagerConfiguration =
       new ModuleManagerConfiguration();
   private Configuration configuration;
@@ -47,6 +49,7 @@ public class ManagerService {
                         new ConnectException(
                             String.format(NO_IP_FOUND, configuration.getMacAddress())))))
         .flatMap(this::checkFirmwareVersion)
+        .flatMap(settingsDto -> updateServiceAddress(settingsDto.getModuleMacAddress()))
         .flatMap(this::setBaseUrl)
         .map(SettingsDto::toString)
         .doOnSuccess(settingsDto -> log.info(SUCCESSFUL_SET_BASE_IP, settingsDto))
@@ -69,26 +72,58 @@ public class ManagerService {
   }
 
   private Mono<SettingsDto> checkFirmwareVersion(final SettingsDto settingsDto) {
-    if (!configuration.getFirmware().equals(settingsDto.getFirmware())) {
+    if (!configuration.getFirmware().equals(settingsDto.getModuleFirmwareVersion())) {
       throw new ValidatorException(
           String.format(
-              FIRMWARE_DONT_MATCH, configuration.getFirmware(), settingsDto.getFirmware()));
+              FIRMWARE_DONT_MATCH,
+              configuration.getFirmware(),
+              settingsDto.getModuleFirmwareVersion()));
     }
     return Mono.just(settingsDto);
   }
 
   private Mono<SettingsDto> setBaseUrl(final SettingsDto settingsDto) {
-    configuration.setBaseUrl(settingsDto.getIpAddress());
+    configuration.setBaseUrl(settingsDto.getModuleIpAddress());
     retryMs = 5000;
     return Mono.just(settingsDto);
   }
 
-  public Mono<SettingsDto> getModuleSettingsByMacAddress(final String macAddress) {
+  public Mono<SettingsDto> getModuleSettingsByMacAddress(final String moduleMacAddress) {
     return moduleManagerConfiguration
         .webClient()
         .get()
-        .uri("/settings?macAddress=" + macAddress)
+        .uri("/settings?moduleMacAddress=" + moduleMacAddress)
         .exchangeToMono(this::processResponse);
+  }
+
+  private Mono<SettingsDto> updateServiceAddress(final String moduleMacAddress) {
+    return Mono.justOrEmpty(environment.getProperty("server.port"))
+        .switchIfEmpty(
+            Mono.defer(
+                () -> Mono.error(new UnknownHostException("Service port unable to retrieve"))))
+        .flatMap(
+            port -> {
+              try {
+                return Mono.just(InetAddress.getLocalHost().getHostAddress() + ":" + port);
+              } catch (final UnknownHostException e) {
+                return Mono.error(
+                    new RuntimeException(
+                        String.format(
+                            "Error on getting host name for module mac address: %s",
+                            moduleMacAddress)));
+              }
+            })
+        .flatMap(
+            serviceAddress ->
+                moduleManagerConfiguration
+                    .webClient()
+                    .put()
+                    .uri(
+                        "/updateServiceAddress?moduleMacAddress="
+                            + moduleMacAddress
+                            + "&serviceAddress="
+                            + serviceAddress)
+                    .exchangeToMono(this::processResponse));
   }
 
   private Mono<SettingsDto> processResponse(final ClientResponse clientResponse) {

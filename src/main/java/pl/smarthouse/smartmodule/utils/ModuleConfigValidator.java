@@ -1,11 +1,10 @@
 package pl.smarthouse.smartmodule.utils;
 
-import org.apache.commons.lang3.StringUtils;
-import pl.smarthouse.smartmodule.model.configuration.Configuration;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
+import org.apache.commons.lang3.StringUtils;
+import pl.smarthouse.smartmodule.model.configuration.Configuration;
 
 public interface ModuleConfigValidator extends Consumer<Configuration> {
   String WRONG_FORMAT = "Wrong format. Accepted is yyyyMMdd.xx Now is %s";

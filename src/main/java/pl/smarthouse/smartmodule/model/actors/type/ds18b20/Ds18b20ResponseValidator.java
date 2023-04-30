@@ -1,9 +1,8 @@
 package pl.smarthouse.smartmodule.model.actors.type.ds18b20;
 
+import java.time.LocalDateTime;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDateTime;
 
 @UtilityClass
 @Slf4j

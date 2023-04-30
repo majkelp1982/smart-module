@@ -1,13 +1,12 @@
 package pl.smarthouse.smartmodule.model.actors.type.ds18b20;
 
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import pl.smarthouse.smartmodule.exceptions.InvalidDs18b20AddressException;
 import pl.smarthouse.smartmodule.model.actors.response.Response;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @UtilityClass
 public class Ds18b20Utils {

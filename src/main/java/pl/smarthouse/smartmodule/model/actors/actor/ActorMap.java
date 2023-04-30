@@ -1,11 +1,10 @@
 package pl.smarthouse.smartmodule.model.actors.actor;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

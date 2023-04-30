@@ -2,6 +2,8 @@ package pl.smarthouse.smartmodule.model.actors.type.bme280;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
+import java.util.Map;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -9,9 +11,6 @@ import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.enums.ActorType;
-
-import java.time.LocalDateTime;
-import java.util.Map;
 
 @Setter
 @Getter

@@ -1,13 +1,12 @@
 package pl.smarthouse.smartmodule.model.actors.type.ds18b20;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import pl.smarthouse.smartmodule.model.actors.response.Response;
-
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @Getter
 @Setter

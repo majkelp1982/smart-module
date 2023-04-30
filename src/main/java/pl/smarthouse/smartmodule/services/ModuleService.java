@@ -1,5 +1,9 @@
 package pl.smarthouse.smartmodule.services;
 
+import static pl.smarthouse.smartmodule.model.module.ModuleResponses.TYPE;
+import static pl.smarthouse.smartmodule.model.module.ModuleResponses.VERSION;
+
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,11 +16,6 @@ import pl.smarthouse.smartmodule.model.module.ModuleCommands;
 import pl.smarthouse.smartmodule.utils.CommandUtils;
 import pl.smarthouse.smartmodule.utils.ResponseUtils;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
-
-import static pl.smarthouse.smartmodule.model.module.ModuleResponses.TYPE;
-import static pl.smarthouse.smartmodule.model.module.ModuleResponses.VERSION;
 
 @RequiredArgsConstructor
 @Slf4j

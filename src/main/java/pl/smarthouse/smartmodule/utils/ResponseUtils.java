@@ -1,5 +1,8 @@
 package pl.smarthouse.smartmodule.utils;
 
+import static pl.smarthouse.smartmodule.model.module.ModuleResponses.RESPONSE_MAP;
+
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.smarthouse.smartmodule.exceptions.ActorResponseException;
@@ -7,10 +10,6 @@ import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
-
-import static pl.smarthouse.smartmodule.model.module.ModuleResponses.RESPONSE_MAP;
 
 @AllArgsConstructor
 @Slf4j

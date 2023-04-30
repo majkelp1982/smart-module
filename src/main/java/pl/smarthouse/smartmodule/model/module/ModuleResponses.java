@@ -1,8 +1,7 @@
 package pl.smarthouse.smartmodule.model.module;
 
-import lombok.*;
-
 import java.util.Map;
+import lombok.*;
 
 @Getter
 @EqualsAndHashCode

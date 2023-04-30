@@ -1,9 +1,8 @@
 package pl.smarthouse.smartmodule.model.module;
 
+import java.util.Map;
 import lombok.*;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
-
-import java.util.Map;
 
 @Getter
 @EqualsAndHashCode

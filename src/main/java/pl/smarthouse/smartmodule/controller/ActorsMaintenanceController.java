@@ -1,5 +1,7 @@
 package pl.smarthouse.smartmodule.controller;
 
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
@@ -8,9 +10,6 @@ import pl.smarthouse.smartmodule.services.MaintenanceService;
 import pl.smarthouse.smartmodule.services.ManagerService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/actors")

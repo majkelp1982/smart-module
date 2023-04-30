@@ -1,14 +1,13 @@
 package pl.smarthouse.smartmodule.model.actors.command;
 
-import lombok.NonNull;
-import pl.smarthouse.smartmodule.exceptions.InvalidCommandException;
-import pl.smarthouse.smartmodule.exceptions.ValidatorException;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.NonNull;
+import pl.smarthouse.smartmodule.exceptions.InvalidCommandException;
+import pl.smarthouse.smartmodule.exceptions.ValidatorException;
 
 public abstract class CommandValidator {
   private final String VALIDATOR_NOT_DEFINED = "Validator for command type: %s not defined";

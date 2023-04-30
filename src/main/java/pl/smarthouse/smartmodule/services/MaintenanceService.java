@@ -1,5 +1,6 @@
 package pl.smarthouse.smartmodule.services;
 
+import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,6 @@ import pl.smarthouse.smartmodule.model.actors.type.pca9685.Pca9685CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pin.PinCommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pwm.PwmCommandType;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

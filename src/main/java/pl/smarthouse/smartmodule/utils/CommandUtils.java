@@ -1,11 +1,10 @@
 package pl.smarthouse.smartmodule.utils;
 
+import java.util.HashMap;
+import java.util.Map;
 import pl.smarthouse.smartmodule.model.actors.command.CommandSet;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import pl.smarthouse.smartmodule.model.module.ModuleCommands;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CommandUtils {
 

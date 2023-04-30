@@ -19,7 +19,7 @@ class ManagerServiceTest {
         managerService.getModuleSettingsByMacAddress(MAC_ADDRESS);
 
     StepVerifier.create(getModuleSettingsByMacAccress)
-        .expectNextMatches(settingsDto -> settingsDto.getIpAddress().equals("localhost:8081"))
+        .expectNextMatches(settingsDto -> settingsDto.getModuleIpAddress().equals("localhost:8081"))
         .verifyComplete();
   }
 }

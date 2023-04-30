@@ -1,11 +1,10 @@
 package pl.smarthouse.smartmodule.model.actors.type.ds18b20;
 
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
