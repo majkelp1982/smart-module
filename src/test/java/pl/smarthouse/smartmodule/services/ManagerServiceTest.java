@@ -3,7 +3,7 @@ package pl.smarthouse.smartmodule.services;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.smarthouse.modulemanager.model.dto.SettingsDto;
+import pl.smarthouse.sharedobjects.dto.SettingsDto;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 

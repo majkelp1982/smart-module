@@ -10,11 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
-import pl.smarthouse.loghandler.model.dto.ErrorDto;
-import pl.smarthouse.loghandler.service.LogService;
-import pl.smarthouse.loghandler.utils.LogUtils;
-import pl.smarthouse.modulemanager.configuration.ModuleManagerConfiguration;
-import pl.smarthouse.modulemanager.model.dto.SettingsDto;
+import org.springframework.web.reactive.function.client.WebClient;
+import pl.smarthouse.sharedobjects.dto.SettingsDto;
 import pl.smarthouse.smartmodule.exceptions.ValidatorException;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import reactor.core.publisher.Flux;
@@ -32,10 +29,8 @@ public class ManagerService {
   private static final String SUCCESSFUL_SET_BASE_IP = "Successful set base IP for module: {}";
   private static final long RETRY_MAX_ATTEMPT = 1L;
   private final Environment environment;
-  private final ModuleManagerConfiguration moduleManagerConfiguration =
-      new ModuleManagerConfiguration();
   private Configuration configuration;
-  private final LogService logService;
+  private final WebClient moduleManagerWebClient;
 
   private static int retryMs = 5000;
   private static final int MAX_RETRY_MS = 10 * 60 * 1000;
@@ -59,9 +54,7 @@ public class ManagerService {
               if (retryMs > MAX_RETRY_MS) {
                 retryMs = MAX_RETRY_MS;
               }
-              final ErrorDto errorDto =
-                  LogUtils.error(configuration.getType(), throwable.getMessage());
-              logService.error(errorDto);
+              log.error("Error occurred on retrieve module ip. Error: {}", throwable);
             })
         .retryWhen(
             Retry.fixedDelay(RETRY_MAX_ATTEMPT, Duration.ofMillis(retryMs))
@@ -89,8 +82,7 @@ public class ManagerService {
   }
 
   public Mono<SettingsDto> getModuleSettingsByMacAddress(final String moduleMacAddress) {
-    return moduleManagerConfiguration
-        .webClient()
+    return moduleManagerWebClient
         .get()
         .uri("/settings?moduleMacAddress=" + moduleMacAddress)
         .exchangeToMono(this::processResponse);
@@ -115,8 +107,7 @@ public class ManagerService {
             })
         .flatMap(
             serviceAddress ->
-                moduleManagerConfiguration
-                    .webClient()
+                moduleManagerWebClient
                     .put()
                     .uri(
                         "/updateServiceAddress?moduleMacAddress="

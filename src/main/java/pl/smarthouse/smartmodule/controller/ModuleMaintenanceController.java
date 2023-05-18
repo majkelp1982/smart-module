@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.smarthouse.modulemanager.model.dto.SettingsDto;
+import pl.smarthouse.sharedobjects.dto.SettingsDto;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
 import pl.smarthouse.smartmodule.services.ManagerService;
 import reactor.core.publisher.Mono;
