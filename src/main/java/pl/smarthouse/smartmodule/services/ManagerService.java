@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
+import pl.smarthouse.sharedobjects.configuration.ModuleManagerConfiguration;
 import pl.smarthouse.sharedobjects.dto.SettingsDto;
 import pl.smarthouse.smartmodule.exceptions.ValidatorException;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
@@ -30,7 +30,7 @@ public class ManagerService {
   private static final long RETRY_MAX_ATTEMPT = 1L;
   private final Environment environment;
   private Configuration configuration;
-  private final WebClient moduleManagerWebClient;
+  private final ModuleManagerConfiguration moduleManagerConfiguration;
 
   private static int retryMs = 5000;
   private static final int MAX_RETRY_MS = 10 * 60 * 1000;
@@ -82,7 +82,8 @@ public class ManagerService {
   }
 
   public Mono<SettingsDto> getModuleSettingsByMacAddress(final String moduleMacAddress) {
-    return moduleManagerWebClient
+    return moduleManagerConfiguration
+        .moduleManagerWebClient()
         .get()
         .uri("/settings?moduleMacAddress=" + moduleMacAddress)
         .exchangeToMono(this::processResponse);
@@ -107,7 +108,8 @@ public class ManagerService {
             })
         .flatMap(
             serviceAddress ->
-                moduleManagerWebClient
+                moduleManagerConfiguration
+                    .moduleManagerWebClient()
                     .put()
                     .uri(
                         "/updateServiceAddress?moduleMacAddress="
