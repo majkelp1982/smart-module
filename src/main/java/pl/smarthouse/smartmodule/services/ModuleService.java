@@ -45,7 +45,10 @@ public class ModuleService {
         .flatMap(this::checkModuleCommands)
         .flatMap(this::exchangeCommand)
         .doOnError(
-            signal -> (signal != null) && (signal.getMessage().contains("connection")),
+            signal ->
+                (signal != null)
+                    && (signal.getMessage().contains("connection")
+                        || (signal.getMessage().contains("Connection"))),
             exception -> {
               log.error(ERROR_RESET_BASE_URL);
               configuration.resetBaseUrl();
