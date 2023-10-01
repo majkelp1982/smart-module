@@ -27,12 +27,12 @@ public class ModuleService {
       "Error on validation, cause: {}, message: {}";
   private static final String ERROR_WEB_CLIENT = "Error while communicate with module, reason: {}";
   private static final String ERROR_RESET_BASE_URL =
-      "Reset module base url caused by connection error";
+      "Reset module base url caused by communication error";
   private static final String CONFIGURATION_MISSING =
       "Configuration is missing in module. Will be send. Message:{}";
   private static final String ERROR_WHILE_SENDING_CONFIGURATION =
       "Error while sending configuration: {}";
-  private static final String DEVICE_RESPOND_ERROR = "Device respond error: {}";
+  private static final String DEVICE_RESPOND_ERROR = "Device respond error: %s";
 
   private final ManagerService managerService;
   private Configuration configuration;
@@ -45,10 +45,6 @@ public class ModuleService {
         .flatMap(this::checkModuleCommands)
         .flatMap(this::exchangeCommand)
         .doOnError(
-            signal ->
-                (signal != null)
-                    && (signal.getMessage().contains("connection")
-                        || (signal.getMessage().contains("Connection"))),
             exception -> {
               log.error(ERROR_RESET_BASE_URL);
               configuration.resetBaseUrl();
@@ -69,14 +65,15 @@ public class ModuleService {
     return Mono.just(moduleCommands);
   }
 
-  private void actionOnError(final HttpStatus httpStatus, final String message) {
+  private Mono<Map> actionOnError(final HttpStatus httpStatus, final String message) {
     if (HttpStatus.PRECONDITION_REQUIRED.equals(httpStatus)) {
       log.info(CONFIGURATION_MISSING, message);
       sendConfigurationToModule();
     }
     if (httpStatus.is4xxClientError()) {
-      log.error(DEVICE_RESPOND_ERROR, message);
+      return Mono.error(new InvalidResponseException(String.format(DEVICE_RESPOND_ERROR, message)));
     }
+    return Mono.empty();
   }
 
   public void sendConfigurationToModule() {
@@ -119,11 +116,7 @@ public class ModuleService {
           .doOnError(
               throwable ->
                   log.error(ERROR_WHILE_VALIDATION, throwable.getCause(), throwable.getMessage()))
-          .flatMap(
-              map -> {
-                actionOnError(clientResponse.statusCode(), (String) map.get("message"));
-                return Mono.empty();
-              });
+          .flatMap(map -> actionOnError(clientResponse.statusCode(), (String) map.get("message")));
     }
   }
 
