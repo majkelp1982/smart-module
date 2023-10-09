@@ -37,12 +37,8 @@ public class Bme280 extends Actor {
     final Bme280Response resp = objectMapper.convertValue(response, Bme280Response.class);
     resp.setTemperature((int) (resp.getTemperature() * 100) / 100.00);
     resp.setPressure(resp.getPressure() / 100.00);
-
-    final boolean isValid = Bme280ResponseValidator.isResponseValid(name, resp);
-    if (isValid) {
-      this.response = resp;
-      this.response.setResponseUpdate(LocalDateTime.now());
-    }
-    this.response.setError(!isValid);
+    resp.setError(this.response.isError());
+    resp.setResponseUpdate(LocalDateTime.now());
+    this.response = resp;
   }
 }
