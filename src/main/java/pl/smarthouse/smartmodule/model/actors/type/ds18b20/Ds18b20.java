@@ -42,21 +42,22 @@ public class Ds18b20 extends Actor {
     newResponse.getResultSet().stream()
         .forEach(
             ds18b20Result -> {
-              Ds18b20ResponseValidator.isResultValid(
-                  name, ds18b20Result, ds18b20CompFactorMap.get(ds18b20Result.getAddress()));
+              applyCompensateTemperature(ds18b20Result);
               getDs18b20Result(ds18b20Result.getAddress())
                   .ifPresentOrElse(
                       sensor -> {
-                        if (ds18b20Result.isError()) {
-                          sensor.setError(true);
-                        } else {
-                          this.response.getResultSet().remove(sensor);
-                          this.response.getResultSet().add(ds18b20Result);
-                        }
+                        sensor.setTemp(ds18b20Result.getTemp());
+                        sensor.setLastUpdate(LocalDateTime.now());
                       },
                       () -> this.response.getResultSet().add(ds18b20Result));
             });
     this.response.setResponseUpdate(LocalDateTime.now());
+  }
+
+  private void applyCompensateTemperature(final Ds18b20Result ds18b20Result) {
+    ds18b20Result.setTemp(
+        Ds18b20ResponseValidator.applyCompensateTemperature(
+            ds18b20Result.getTemp(), ds18b20CompFactorMap.get(ds18b20Result.getAddress())));
   }
 
   public Optional<Ds18b20Result> getDs18b20Result(final String address) {
