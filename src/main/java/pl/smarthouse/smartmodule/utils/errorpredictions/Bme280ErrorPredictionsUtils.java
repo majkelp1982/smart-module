@@ -19,8 +19,7 @@ public class Bme280ErrorPredictionsUtils {
   public void setBme280SensorErrorPredictions(
       final ErrorHandlingService errorHandlingService,
       final String sensorName,
-      final Callable<Bme280Response> sensorResponse)
-      throws Exception {
+      final Callable<Bme280Response> sensorResponse) {
     sensorReadTimeout(errorHandlingService, sensorName, sensorResponse);
     sensorInvalidResponse(errorHandlingService, sensorName, sensorResponse);
   }
@@ -28,8 +27,7 @@ public class Bme280ErrorPredictionsUtils {
   private void sensorInvalidResponse(
       final ErrorHandlingService errorHandlingService,
       final String sensorName,
-      final Callable<Bme280Response> sensorResponse)
-      throws Exception {
+      final Callable<Bme280Response> sensorResponse) {
     final Predicate<ModuleDao> bme280invalidResponse =
         ignore -> {
           try {
@@ -38,19 +36,18 @@ public class Bme280ErrorPredictionsUtils {
             throw new RuntimeException(e);
           }
         };
+
     errorHandlingService.add(
         new ErrorPrediction(
             String.format(BME280_RESPONSE_ERROR, sensorName),
             0,
             bme280invalidResponse,
             result -> {
-              Bme280Response bme280Response = null;
               try {
-                bme280Response = sensorResponse.call();
+                sensorResponse.call().setError(result);
               } catch (final Exception e) {
                 throw new RuntimeException(e);
               }
-              bme280Response.setError(result);
             }));
   }
 
@@ -66,19 +63,18 @@ public class Bme280ErrorPredictionsUtils {
             throw new RuntimeException(e);
           }
         };
+
     errorHandlingService.add(
         new ErrorPrediction(
             String.format(BME280_TIMEOUT, sensorName),
             0,
             bme280Timeout,
             result -> {
-              Bme280Response bme280Response = null;
               try {
-                bme280Response = sensorResponse.call();
+                sensorResponse.call().setError(result);
               } catch (final Exception e) {
                 throw new RuntimeException(e);
               }
-              bme280Response.setError(result);
             }));
   }
 }
