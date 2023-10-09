@@ -18,17 +18,14 @@ public class Ds18b20ErrorPredictionsUtils {
 
   public void setDs180b20SensorsErrorPredictions(
       final ErrorHandlingService errorHandlingService,
-      final String sensorName,
-      final Callable<Ds18b20Response> sensorResponse)
-      throws Exception {
+      final Callable<Ds18b20Response> sensorResponse) {
     sensorsReadTimeout(errorHandlingService, sensorResponse);
     sensorsInvalidResponse(errorHandlingService, sensorResponse);
   }
 
   private void sensorsInvalidResponse(
       final ErrorHandlingService errorHandlingService,
-      final Callable<Ds18b20Response> sensorResponse)
-      throws Exception {
+      final Callable<Ds18b20Response> sensorResponse) {
     final Predicate<ModuleDao> ds18b20invalidResponse =
         ignore -> {
           try {
