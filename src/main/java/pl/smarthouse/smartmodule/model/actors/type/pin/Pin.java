@@ -43,6 +43,17 @@ public class Pin extends Actor {
     setCommandSet(new PinCommandSet(PinCommandType.NO_ACTION));
   }
 
+  // Mode ANALOG_INPUT
+  public Pin(@NonNull final String name, @NonNull final int pin, @NonNull final PinMode pinMode) {
+    super(ActorType.PIN, name);
+    if (!PinMode.ANALOG_INPUT.equals(pinMode)) {
+      throw new InvalidPinModeException(PinMode.ANALOG_INPUT, pinMode);
+    }
+    this.pin = pin;
+    this.pinMode = pinMode;
+    setCommandSet(new PinCommandSet(PinCommandType.NO_ACTION));
+  }
+
   // Mode LOW_STATE_COUNTER
   public Pin(
       @NonNull final String name,

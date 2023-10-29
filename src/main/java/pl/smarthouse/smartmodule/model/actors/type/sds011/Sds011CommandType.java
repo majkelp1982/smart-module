@@ -4,9 +4,8 @@ import pl.smarthouse.smartmodule.model.actors.command.CommandType;
 
 public enum Sds011CommandType implements CommandType {
   NO_ACTION,
-  SLEEP,
-  WAKEUP,
-  READ;
+  READ,
+  MODE;
 
   @Override
   public CommandType[] findAll() {
