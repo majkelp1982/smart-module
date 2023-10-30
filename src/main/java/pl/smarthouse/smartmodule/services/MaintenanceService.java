@@ -12,6 +12,8 @@ import pl.smarthouse.smartmodule.model.actors.type.ds18b20.Ds18b20CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pca9685.Pca9685CommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pin.PinCommandType;
 import pl.smarthouse.smartmodule.model.actors.type.pwm.PwmCommandType;
+import pl.smarthouse.smartmodule.model.actors.type.rdbDimmer.RdbDimmerCommandType;
+import pl.smarthouse.smartmodule.model.actors.type.sds011.Sds011CommandType;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -54,6 +56,12 @@ public class MaintenanceService {
         break;
       case DS18B20:
         commandSet.setCommandType(Ds18b20CommandType.valueOf(command));
+        break;
+      case SDS011:
+        commandSet.setCommandType(Sds011CommandType.valueOf(command));
+        break;
+      case DIMMER:
+        commandSet.setCommandType(RdbDimmerCommandType.valueOf(command));
         break;
       default:
         throw new InvalidCommandException("Unable to generate command. Actor type not recognized");

@@ -12,7 +12,7 @@ public class RdbDimmerCommandValidator extends CommandValidator {
     commandValidationMap.put(RdbDimmerCommandType.MODE, List.of("NORMAL_MODE", "TOGGLE_MODE"));
     commandValidationMap.put(RdbDimmerCommandType.INCREMENTAL, List.of("true", "false"));
     commandValidationMap.put(RdbDimmerCommandType.STATE, List.of("ON", "OFF"));
-    commandValidationMap.put(RdbDimmerCommandType.POWER, List.of(0, 100));
+    commandValidationMap.put(RdbDimmerCommandType.POWER, List.of(0, 99));
     commandValidationMap.put(RdbDimmerCommandType.MSDELAY, List.of(0, 1000));
   }
 }

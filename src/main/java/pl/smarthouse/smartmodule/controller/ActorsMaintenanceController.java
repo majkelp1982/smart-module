@@ -3,6 +3,7 @@ package pl.smarthouse.smartmodule.controller;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.smarthouse.smartmodule.model.actors.actor.Actor;
 import pl.smarthouse.smartmodule.model.configuration.Configuration;
@@ -54,5 +55,11 @@ public class ActorsMaintenanceController {
               actorName, command.toUpperCase(), (value != null) ? value.toUpperCase() : null)
           .flatMap(actor -> maintenanceService.exchangeWithModule());
     }
+  }
+
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+  public Mono<String> exceptionHandler(final Exception exception) {
+    return Mono.just(exception.getMessage());
   }
 }
