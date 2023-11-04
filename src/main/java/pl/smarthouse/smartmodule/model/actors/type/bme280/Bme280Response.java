@@ -12,5 +12,4 @@ public class Bme280Response extends Response {
   private double temperature;
   private double pressure;
   private int humidity;
-  private boolean error;
 }

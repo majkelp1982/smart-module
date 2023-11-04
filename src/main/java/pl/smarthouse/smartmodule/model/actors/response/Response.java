@@ -10,4 +10,5 @@ import lombok.ToString;
 @ToString
 public abstract class Response {
   protected LocalDateTime responseUpdate;
+  private boolean error;
 }
