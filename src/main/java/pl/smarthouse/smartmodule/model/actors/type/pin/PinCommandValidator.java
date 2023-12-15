@@ -10,5 +10,7 @@ public class PinCommandValidator extends CommandValidator {
   @Override
   protected void prepareValidationMap() {
     commandValidationMap.put(PinCommandType.SET, List.of(PinState.HIGH, PinState.LOW));
+    commandValidationMap.put(
+        PinCommandType.SET_DEFAULT_STATE, List.of(PinState.HIGH, PinState.LOW));
   }
 }

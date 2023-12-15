@@ -10,6 +10,7 @@ import pl.smarthouse.smartmodule.model.actors.response.Response;
 @ToString(callSuper = true)
 public class PinResponse extends Response {
   private PinState pinState;
+  private PinState pinDefaultState;
   private int pinValue;
   private int counter;
 }
