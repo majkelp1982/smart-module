@@ -18,21 +18,21 @@ public class PinErrorPredictionsUtils {
   public void setPinErrorPredictions(
       final ErrorHandlingService errorHandlingService,
       final String sensorName,
-      final Callable<Boolean> validator,
+      final Callable<Boolean> isValid,
       final Callable<PinResponse> sensorResponse) {
     sensorReadTimeout(errorHandlingService, sensorName, sensorResponse);
-    sensorInvalidResponse(errorHandlingService, sensorName, validator, sensorResponse);
+    sensorInvalidResponse(errorHandlingService, sensorName, isValid, sensorResponse);
   }
 
   private void sensorInvalidResponse(
       final ErrorHandlingService errorHandlingService,
       final String sensorName,
-      final Callable<Boolean> validator,
+      final Callable<Boolean> isValid,
       final Callable<PinResponse> sensorResponse) {
     final Predicate<ModuleDao> pinInvalidResponse =
         ignore -> {
           try {
-            return validator.call();
+            return !isValid.call();
           } catch (final Exception e) {
             throw new RuntimeException(e);
           }
