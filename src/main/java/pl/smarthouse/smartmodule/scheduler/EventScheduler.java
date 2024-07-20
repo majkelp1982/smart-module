@@ -14,7 +14,7 @@ import pl.smarthouse.smartmodule.services.ModuleService;
 public class EventScheduler {
   private final ModuleService moduleService;
 
-  @Scheduled(fixedDelay = 1000)
+  @Scheduled(initialDelay = 10 * 1000, fixedDelay = 1000)
   public void eventScheduler() {
     // Block. Do not run another exchange until last is not finished
     moduleService.exchange().block();

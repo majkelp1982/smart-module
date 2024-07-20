@@ -48,6 +48,8 @@ public class ManagerService {
         .flatMap(this::setBaseUrl)
         .map(SettingsDto::toString)
         .doOnSuccess(settingsDto -> log.info(SUCCESSFUL_SET_BASE_IP, settingsDto))
+        .doOnSubscribe(
+            subscription -> log.info("Try to get IP address from module manager settings"))
         .doOnError(
             throwable -> {
               retryMs = retryMs * 2;
@@ -86,7 +88,11 @@ public class ManagerService {
         .moduleManagerWebClient()
         .get()
         .uri("/settings?moduleMacAddress=" + moduleMacAddress)
-        .exchangeToMono(this::processResponse);
+        .exchangeToMono(this::processResponse)
+        .doOnSubscribe(
+            subscription ->
+                log.info(
+                    "Getting base url from module manager. Mac address: {}", moduleMacAddress));
   }
 
   private Mono<SettingsDto> updateServiceAddress(final String moduleMacAddress) {
