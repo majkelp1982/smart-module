@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.smarthouse.smartmodule.services.ModuleService;
+import reactor.core.scheduler.Schedulers;
 
 @EnableScheduling
 @RequiredArgsConstructor
@@ -14,9 +15,9 @@ import pl.smarthouse.smartmodule.services.ModuleService;
 public class EventScheduler {
   private final ModuleService moduleService;
 
-  @Scheduled(initialDelay = 10 * 1000, fixedDelay = 1000)
+  @Scheduled(fixedDelay = 1000)
   public void eventScheduler() {
     // Block. Do not run another exchange until last is not finished
-    moduleService.exchange().block();
+    moduleService.exchange().subscribeOn(Schedulers.boundedElastic()).block();
   }
 }
